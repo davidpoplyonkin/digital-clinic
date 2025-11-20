@@ -1,0 +1,21 @@
+{% extends "digital_clinic/list_view.html" %}
+
+{% block table %}
+    <table class="table table-hover table-colors">
+        <thead>
+            <tr class="sticky-header">
+                <th>Name</th>
+                <th>DOB</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for patient in page_obj %}
+                <tr class="clickable-row" data-href="{% url 'patients:patient-detail' patient.pk %}">
+                    <td>{{ patient.full_name }}</td>
+                    <td>{{ patient.dob }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
