@@ -1,0 +1,94 @@
+{% extends "digital_clinic/base.html" %}
+
+{% block content %}
+    <div class = "content-section">        
+        <div class="row">
+            <div class="col">
+                <a
+                    href="{% url url_create %}"
+                    class="btn btn-outline-secondary"
+                >
+                    <i class="bi bi-plus-lg"></i> Add
+                </a>
+            </div>
+
+            <div class="col-auto">
+                <form method="GET" action="{% url url_this %}">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            style="width: 15em"
+                            value="{{ search }}"
+                            placeholder="{{ search_placeholder }}"
+                            name="search"
+                        >
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            window.addEventListener("beforeunload", function() {
+                const app = "{{ app }}";
+                const urlParams = new URLSearchParams(window.location.search);
+                            
+                const search = urlParams.get("search") || "";
+                sessionStorage.setItem(app + "Search", search);
+
+                const page = urlParams.get("page") || "1";
+                sessionStorage.setItem(app + "Page", page);
+            });
+        </script>
+
+        {% if page_obj %}    
+            {% block table %}{% endblock %}
+
+            <!-- Paginator Navigation -->
+            <div class="d-flex justify-content-end">
+                <span>
+                    {% if page_obj.number > 2 %}
+                        <a
+                            href="{% url url_this %}?search={{ search }}&page=1"
+                            class="text-decoration-none"
+                        >
+                            <i class="bi bi-chevron-double-left"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if page_obj.has_previous %}
+                        <a
+                            href="{% url url_this %}?search={{ search }}&page={{ page_obj.previous_page_number }}"
+                            class="text-decoration-none"
+                        >
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    {% endif %}
+
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+                    {% if page_obj.has_next %}
+                        <a
+                            href="{% url url_this %}?search={{ search }}&page={{ page_obj.next_page_number }}"
+                            class="text-decoration-none"    
+                        >
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if page_obj.number < page_obj.paginator.num_pages|add:"-1" %}
+                        <a 
+                            href="{% url url_this %}?search={{ search }}&page={{ page_obj.paginator.num_pages}}"
+                            class="text-decoration-none"    
+                        >
+                            <i class="bi bi-chevron-double-right"></i>
+                        </a>
+                    {% endif %}
+                </span>
+            </div>
+        {% else %}
+            <p class="mt-2">No search results.</p>
+        {% endif %}
+    </div>
+{% endblock%}
