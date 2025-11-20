@@ -1,0 +1,12 @@
+{% extends "digital_clinic/detail_view.html" %}
+
+{% block details %}
+
+    <dl class="mt-2 mb-0">
+        {% for field in obj_fields %}
+            <dt>{{ field.name }}</dt>
+            <dd>{{ field.value|default:"-" }}</dd>
+        {% endfor %}
+    </dl>
+
+{% endblock%}
