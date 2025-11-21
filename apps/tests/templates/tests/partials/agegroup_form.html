@@ -1,0 +1,65 @@
+<tr {% if del %} style="display: none" {% endif %}>
+
+    {% if agegroup_pk %}
+        <input
+            type="hidden"
+            name="{{ prefix }}-id"
+            value="{{ agegroup_pk }}"
+            id="id_{{ prefix }}-id"
+        >
+    {% endif %}
+
+    {% if del %}
+        <input
+            type="hidden"
+            name="{{ prefix }}-DELETE"
+            value="on"
+            id="id_{{ prefix }}-DELETE"
+        >
+    {% else %}
+        <td>
+            <button class="btn btn-outline-secondary"
+                hx-post="{% url 'tests:agegroup-delete' prefix %}"
+                hx-target="closest tr"
+                hx-swap="outerHTML">
+
+                <i class="bi bi-x-lg" style="cursor: pointer;"></i>
+        </button>
+        </td>
+        <td>
+            <input
+                class="form-control {% if max_age_errors %} is-invalid {% endif %}"
+                name="{{ prefix }}-max_age"
+                value="{{ max_age }}"
+                id="id_{{ prefix }}-max_age">
+        </td>
+        <td>
+            <input
+                class="form-control {% if male_min_errors %} is-invalid {% endif %}"
+                name="{{ prefix }}-male_min"
+                value="{{ male_min }}"
+                id="id_{{ prefix }}-male_min">
+        </td>
+        <td>
+            <input
+                class="form-control {% if male_max_errors %} is-invalid {% endif %}"
+                name="{{ prefix }}-male_max"
+                value="{{ male_max }}"
+                id="id_{{ prefix }}-male_max">
+        </td>
+        <td>
+            <input
+                class="form-control {% if female_min_errors %} is-invalid {% endif %}"
+                name="{{ prefix }}-female_min"
+                value="{{ female_min }}"
+                id="id_{{ prefix }}-female_min">
+        </td>
+        <td>
+            <input
+                class="form-control {% if female_max_errors %} is-invalid {% endif %}"
+                name="{{ prefix }}-female_max"
+                value="{{ female_max }}"
+                id="id_{{ prefix }}-female_max">
+        </td>
+    {% endif %}
+</tr>

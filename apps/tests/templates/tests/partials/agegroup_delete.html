@@ -1,0 +1,9 @@
+{% if agegroup_pk %}
+    {% include 'tests/partials/agegroup_form.html' with agegroup_pk=agegroup_pk prefix=prefix del="on" %}
+{% else %}
+    <input type="hidden"
+        name="testagegroup_set-TOTAL_FORMS"
+        value="{{ total_forms }}"
+        id="id_testagegroup_set-TOTAL_FORMS"
+        hx-swap-oob="true">
+{% endif %}

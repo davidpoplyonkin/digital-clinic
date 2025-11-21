@@ -9,4 +9,8 @@ urlpatterns = [
     path("new/", views.test_upsert_view, name="test-create"),
     path("<int:pk>/update/", views.test_upsert_view, name="test-update"),
     path("<int:pk>/delete/", views.test_delete_view, name="test-delete"),
+
+    # HTMX
+    path("htmx/agegroup/new/", views.agegroup_append, name="agegroup-append"),
+    path("htmx/agegroup/<str:prefix>/delete/", views.agegroup_delete, name="agegroup-delete"),
 ]
