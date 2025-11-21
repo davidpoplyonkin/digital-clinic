@@ -1,0 +1,62 @@
+{% extends "digital_clinic/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="post">
+            {% csrf_token %}
+
+            <h1>Test</h1>
+            {{ form|crispy }}
+            
+            <h3>Reference Values</h3>
+
+            <div id="formset-errors">
+                {% for e in formset_errors %}
+                    <p style="color: var(--color-error);">
+                        <strong>{{ e }}</strong>
+                    </p>
+                {% endfor %}
+            </div>
+
+            {{ formset.management_form }}
+
+            <table class="table table-colors mb-2">
+                <thead>
+                    <tr>
+                        <th rowspan="2"></th>
+                        <th rowspan="2">Max Age</th>
+                        <th colspan="2">Male</th>
+                        <th colspan="2">Female</th>
+                    </tr>
+                    <tr>
+                        <th>Min</th>
+                        <th>Max</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                </thead>
+                <tbody id="agegroup-table">
+                    {% for f in formset %}
+                        {% with i=f.instance ma=f.max_age mn=f.male_min mx=f.male_max fn=f.female_min fx=f.female_max %}
+                            {% include 'tests/partials/agegroup_form.html' with prefix=f.prefix agegroup_pk=i.pk max_age=ma.value max_age_errors=ma.errors male_min=mn.value male_min_errors=mn.errors male_max=mx.value male_max_errors=mx.errors female_min=fn.value female_min_errors=fn.errors female_max=fx.value female_max_errors=fx.errors del=f.DELETE.value %}
+                        {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="d-grid ps-2 pe-2">
+                <button
+                    class="btn btn-outline-secondary"
+                    hx-post="{% url 'tests:agegroup-append' %}"
+                    hx-target="#agegroup-table"
+                    hx-swap="beforeend"
+                >
+                    <i class="bi bi-plus-lg"></i> Add
+                </button>
+            </div>
+            
+            {% include 'digital_clinic/partials/form_actions.html' with pk=form.instance.pk url_list='tests:test-list' url_detail='tests:test-detail' %}
+        </form>
+    </div>
+{% endblock %}
