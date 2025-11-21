@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "apps.patients.apps.PatientsConfig",
+    "apps.tests.apps.TestsConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "django.contrib.admin",
