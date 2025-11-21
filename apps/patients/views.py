@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.views.generic import CreateView, UpdateView
 
 from .models import Patient
+from .forms import PatientForm
 
 def patient_list_view(request):    
     search = request.GET.get("search")
@@ -61,11 +63,13 @@ def patient_detail_view(request, pk):
     
     return render(request, "patients/patient_detail.html", context)
 
-def patient_create_view(request):
-    pass
+class PatientCreateView(CreateView):
+    model = Patient
+    form_class = PatientForm
 
-def patient_update_view(request):
-    pass
+class PatientUpdateView(UpdateView):
+    model = Patient
+    form_class = PatientForm
 
 def patient_delete_view(request):
     pass
