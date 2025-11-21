@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView
 
@@ -71,5 +71,18 @@ class PatientUpdateView(UpdateView):
     model = Patient
     form_class = PatientForm
 
-def patient_delete_view(request):
-    pass
+def patient_delete_view(request, pk):
+
+    obj = get_object_or_404(Patient, pk = pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("patients:patient-list")
+    
+    context = {
+        "title": "Patient",
+        "obj": obj,
+        "url_detail": "patients:patient-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
