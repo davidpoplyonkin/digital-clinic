@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
-from .models import Test
+from .models import Test, TestAgeGroup
 
 @login_required
 def test_list_view(request):
@@ -29,8 +29,32 @@ def test_list_view(request):
     return render(request, "tests/test_list.html", context)
 
 @login_required
-def test_detail_view(request):
-    pass
+def test_detail_view(request, pk):
+
+    test = get_object_or_404(Test, pk = pk)
+    age_groups = TestAgeGroup.objects.filter(test = test)
+    
+    context = {
+        "app": "tests",
+        "obj": test,
+        "age_groups": age_groups,
+        "additional_buttons": [
+            {
+                "url": "tests:test-update",
+                "bootstrap_class": "btn-outline-secondary",
+                "bootstrap_icon": "bi-pencil",
+                "text": "Edit",
+            }, {
+                "url": "tests:test-delete",
+                "bootstrap_class": "btn-outline-danger",
+                "bootstrap_icon": "bi-trash",
+                "text": "Delete",
+            }
+        ],
+        "url_list": "tests:test-list",
+    }
+    
+    return render(request, "tests/test_detail.html", context)
 
 @login_required
 def test_upsert_view(request):

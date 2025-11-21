@@ -1,0 +1,32 @@
+{% extends "digital_clinic/detail_view.html" %}
+
+{% block details %}
+
+    <table class="table table-colors mb-0">
+        <thead>
+            <tr>
+                <th rowspan="2">Max Age</th>
+                <th colspan="2">Male</th>
+                <th colspan="2">Female</th>
+            </tr>
+            <tr>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Min</th>
+                <th>Max</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ag in age_groups %}
+                <tr>
+                    <td>{{ ag.max_age }}</td>
+                    <td>{{ ag.male_min }}</td>
+                    <td>{{ ag.male_max }}</td>
+                    <td>{{ ag.female_min }}</td>
+                    <td>{{ ag.female_max }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
