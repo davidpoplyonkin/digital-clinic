@@ -1,0 +1,12 @@
+<div class="form-actions d-flex justify-content-end mt-3">
+        <a
+            href="{% if pk %} {% url url_detail pk %} {% else %} {% url url_list %} {% endif %}"
+            class="btn btn-outline-secondary me-2"
+        >
+            <i class="bi bi-x-lg"></i> Cancel
+        </a>
+
+        <button type="submit" class="btn btn-outline-success">
+            <i class="bi bi-check-lg"></i> Submit
+        </button>
+</div>

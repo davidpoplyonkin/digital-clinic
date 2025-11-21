@@ -1,0 +1,16 @@
+{% extends "digital_clinic/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+
+            <h1>Patient</h1>
+
+            {{ form|crispy }}
+
+            {% include 'digital_clinic/partials/form_actions.html' with pk=form.instance.pk url_list='patients:patient-list' url_detail='patients:patient-detail' %}
+        </form>
+    </div>
+{% endblock content %}

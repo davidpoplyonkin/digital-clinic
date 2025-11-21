@@ -79,7 +79,7 @@ class Patient(models.Model):
         return self.full_name
     
     def get_absolute_url(self):
-        return reverse("patients-detail", kwargs={"pk": self.pk})
+        return reverse("patients:patient-detail", kwargs={"pk": self.pk})
     
     def get_age(self, today_date: datetime.date):
         """
