@@ -10,7 +10,11 @@
 body {
   color: var(--color-text);
   background: var(--color-bg-secondary);
-  margin-top: 3rem;
+  margin-top: 5rem;
+}
+
+nav {
+  background: var(--color-bg)
 }
 
 h1, h2, h3, h4, h5, h6 {

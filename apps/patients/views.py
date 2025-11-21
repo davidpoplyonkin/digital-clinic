@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Patient
 from .forms import PatientForm
 
+@login_required
 def patient_list_view(request):    
     search = request.GET.get("search")
     if search:
@@ -28,6 +31,7 @@ def patient_list_view(request):
 
     return render(request, "patients/patient_list.html", context)
 
+@login_required
 def patient_detail_view(request, pk):
 
     obj = get_object_or_404(Patient, pk = pk)
@@ -63,14 +67,15 @@ def patient_detail_view(request, pk):
     
     return render(request, "patients/patient_detail.html", context)
 
-class PatientCreateView(CreateView):
+class PatientCreateView(LoginRequiredMixin, CreateView):
     model = Patient
     form_class = PatientForm
 
-class PatientUpdateView(UpdateView):
+class PatientUpdateView(LoginRequiredMixin, UpdateView):
     model = Patient
     form_class = PatientForm
 
+@login_required
 def patient_delete_view(request, pk):
 
     obj = get_object_or_404(Patient, pk = pk)
