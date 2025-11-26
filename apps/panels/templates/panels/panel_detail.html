@@ -1,0 +1,11 @@
+{% extends "digital_clinic/detail_view.html" %}
+
+{% block details %}
+
+    <ol class="mt-2 mb-0">
+        {% for pt in panel_tests %}
+            <li> {{ pt.test }} </li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}
