@@ -24,4 +24,5 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(template_name="registration/logout.html"), name="logout"),
     path("", include("apps.patients.urls")),
     path("tests/", include("apps.tests.urls")),
+    path("panels/", include("apps.panels.urls")),
 ]
