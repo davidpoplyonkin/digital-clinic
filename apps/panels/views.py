@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
-from .models import Panel
+from .models import Panel, PanelTest
 
 @login_required
 def panel_list_view(request):
@@ -31,8 +31,32 @@ def panel_list_view(request):
     return render(request, "panels/panel_list.html", context)
 
 @login_required
-def panel_detail_view(request):
-    pass
+def panel_detail_view(request, pk):
+
+    panel = get_object_or_404(Panel, pk = pk)
+    panel_tests = PanelTest.objects.filter(panel = panel)
+    
+    context = {
+        "app": "panels",
+        "obj": panel,
+        "panel_tests": panel_tests,
+        "additional_buttons": [
+            {
+                "url": "panels:panel-update",
+                "bootstrap_class": "btn-outline-secondary",
+                "bootstrap_icon": "bi-pencil",
+                "text": "Edit",
+            }, {
+                "url": "panels:panel-delete",
+                "bootstrap_class": "btn-outline-danger",
+                "bootstrap_icon": "bi-trash",
+                "text": "Delete",
+            }
+        ],
+        "url_list": "panels:panel-list"
+    }
+    
+    return render(request, "panels/panel_detail.html", context)
 
 @login_required
 def panel_upsert_view(request):
