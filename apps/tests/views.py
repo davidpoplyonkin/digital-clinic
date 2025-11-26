@@ -109,8 +109,20 @@ def test_upsert_view(request, pk = None):
     })
 
 @login_required
-def test_delete_view(request):
-    pass
+def test_delete_view(request, pk):
+    obj = get_object_or_404(Test, pk = pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("tests:test-list")
+    
+    context = {
+        "title": "Test",
+        "obj": obj,
+        "url_detail": "tests:test-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
 
 # HTMX VIEWS
 
