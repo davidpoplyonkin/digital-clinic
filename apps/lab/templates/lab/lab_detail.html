@@ -1,0 +1,27 @@
+{% extends "digital_clinic/detail_view.html" %}
+
+{% block details %}
+
+    <dl class="mt-2 mb-0">
+        <dt>Patient</dt>
+        <dd>{{ obj.patient }}</dd>
+
+        <dt>Date</dt>
+        <dd>{{ obj.date }}</dd>
+        
+        <dt>Place</dt>
+        <dd>{{ obj.place }}</dd>
+
+        <dt>Panel</dt>
+        <dd>{{ obj.panel }}</dd>
+    </dl>
+
+    <h3>Results</h3>
+    <dl>
+    {% for r in res %}
+        <dt>{{ r.test.name }}</dt>
+        <dd>{{ r.value}} {{ r.test.units }}</dd>
+    {% endfor%}
+    </dl>
+
+{% endblock %}
