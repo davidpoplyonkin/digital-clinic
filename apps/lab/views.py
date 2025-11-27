@@ -275,5 +275,18 @@ class LabWizardView(LoginRequiredMixin, SessionWizardView):
         return super().post(*args, **kwargs)
 
 @login_required
-def lab_delete_view(request):
-    pass
+def lab_delete_view(request, pk):
+
+    obj = get_object_or_404(Lab, pk=pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("lab:lab-list")
+    
+    context = {
+        "title": "Lab",
+        "obj": obj,
+        "url_detail": "lab:lab-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
