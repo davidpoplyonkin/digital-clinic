@@ -25,5 +25,6 @@ urlpatterns = [
     path("", include("apps.patients.urls")),
     path("tests/", include("apps.tests.urls")),
     path("panels/", include("apps.panels.urls")),
-    path("lab/", include("apps.lab.urls"))
+    path("lab/", include("apps.lab.urls")),
+    path("custom-fields/", include("apps.custom_fields.urls"))
 ]

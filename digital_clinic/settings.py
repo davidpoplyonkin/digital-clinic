@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "apps.patients.apps.PatientsConfig",
     "apps.tests.apps.TestsConfig",
     "apps.panels.apps.PanelsConfig",
+    "apps.custom_fields.apps.CustomFieldsConfig",
     "apps.lab.apps.LabConfig",
     "crispy_forms",
     "crispy_bootstrap5",

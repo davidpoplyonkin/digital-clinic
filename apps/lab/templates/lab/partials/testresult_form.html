@@ -1,0 +1,67 @@
+<div id="div_id_{{ prefix }}">
+    {% if testresult.pk %}
+        <input
+            id="id_{{ prefix }}-id"
+            type="hidden"
+            name="{{ prefix }}-id"
+            value="{{ testresult.pk }}"
+        >
+    {% endif %}
+
+    {% if not del %}
+        <dt class="mb-2">{{ testresult.test.name }}</dt>
+        <dd class="row">
+            <div class="col-auto pt-2">
+                <div class="form-check">
+                    <input
+                        id="id_{{ prefix }}-cs"
+                        class="checkboxinput form-check-input"
+                        type="checkbox"
+                        name="{{ prefix }}-cs"
+                        {% if testresult.cs %}checked=""{% endif %}
+                    >
+                    <label
+                        class="form-check-label"
+                        for="id_{{ prefix }}-cs $"
+                    >CS</label>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <input
+                        id="id_{{ prefix }}-value"
+                        class="numberinput form-control {% if value_errors %} is-invalid {% endif %}"
+                        style="width: 10em"
+                        name="{{ prefix }}-value"
+                        value="{{ testresult.value|default_if_none:'' }}"
+                    >
+                    <span class="input-group-text">{{ testresult.test.units }}</span>
+                </div>
+                <div class="ps-3">
+                    {% with ref_vals=testresult.get_reference_values %}
+                        {{ ref_vals.0 }} - {{ ref_vals.1 }}
+                    {% endwith %}
+                </div>
+            </div> 
+        </dd>
+        <input
+            id="id_{{ prefix }}-test"
+            type="hidden"
+            name="{{ prefix }}-test"
+            value="{{ testresult.test.pk }}"
+        >
+        <input
+            id="id_{{ prefix }}-order"
+            type="hidden"
+            name="{{ prefix }}-order"
+            value="{{ testresult.order }}"
+        >
+    {% else %}
+        <input
+            id="id_{{ prefix }}-DELETE"
+            type="hidden"
+            name="{{ prefix }}-DELETE"
+            value="on"
+        >
+    {% endif %}
+</div>
