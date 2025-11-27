@@ -1,0 +1,22 @@
+<div hx-post="{% url 'panels:paneltest-sort' %}"
+    hx-target="closest div"
+    hx-swap="outerHTML"
+    hx-trigger="load">
+</div>
+<div hx-post="{% url 'panels:test-search' %}"
+    hx-target="closest div"
+    hx-swap="outerHTML"
+    hx-trigger="load">
+</div>
+
+{% if paneltest_pk %}
+    <div hx-swap-oob='afterbegin:#paneltest-del'>
+        {% include 'panels/partials/paneltest_form.html' with paneltest_pk=paneltest_pk prefix=prefix test_pk=test_pk order=order del="on" %}
+    </div>
+{% else %}
+    <input type="hidden"
+        name="paneltest_set-TOTAL_FORMS"
+        value="{{ total_forms }}"
+        id="id_paneltest_set-TOTAL_FORMS"
+        hx-swap-oob="true">
+{% endif %}

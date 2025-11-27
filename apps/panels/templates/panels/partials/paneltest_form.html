@@ -1,0 +1,29 @@
+<li {% if paneltest_pk %} id="li-pt-{{ paneltest_pk }}" {% endif %}
+    class="list-group-item text-truncate"
+    title="{{ test_name }}"
+    {% if del %} style="display: none" {% endif %}>
+
+    {% if not del %}
+        <span class="badge bg-secondary"
+            hx-post="{% url 'panels:paneltest-delete' prefix %}"
+            hx-target="closest li"
+            hx-swap="outerHTML">
+
+            <i class="bi bi-x-lg" style="cursor: pointer;"></i>
+        </span>
+        {{ test_name }}   
+    {% endif %}
+
+    {% if paneltest_pk %}
+        <input type="hidden" name="{{ prefix }}-id" value="{{ paneltest_pk }}" id="id_{{ prefix }}-id">
+    {% endif %}
+
+    <input type="hidden" name="{{ prefix }}-test" value="{{ test_pk }}" id="id_{{ prefix }}-test">
+
+    {% if del %}
+        <input type="hidden" name="{{ prefix }}-DELETE" value="on" id="id_{{ prefix }}-DELETE">
+    {% else %}
+        <input type="hidden" name="{{ prefix }}-order" value="{{ order }}" id="id_{{ prefix }}-order">
+    {% endif %}
+
+</li>
