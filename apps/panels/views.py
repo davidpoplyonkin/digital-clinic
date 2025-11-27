@@ -102,8 +102,21 @@ def panel_upsert_view(request, pk = None):
     })
 
 @login_required
-def panel_delete_view(request):
-    pass
+def panel_delete_view(request, pk):
+
+    obj = get_object_or_404(Panel, pk = pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("panels:panel-list")
+    
+    context = {
+        "title": "Panel",
+        "obj": obj,
+        "url_detail": "panels:panel-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
 
 # HTMX VIEWS
 @login_required
