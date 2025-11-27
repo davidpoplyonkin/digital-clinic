@@ -1,0 +1,27 @@
+<div
+    hx-post="{{ on_input_post }}"
+    hx-target="closest div"
+    hx-swap="outerHTML"
+    hx-trigger="input changed from:#id_panel delay:500ms"
+>
+</div>
+
+{% if not initial_render %}
+    <input
+        id="id_testresult_set-TOTAL_FORMS"
+        type="hidden"
+        name="testresult_set-TOTAL_FORMS"
+        value="{{ results|length }}"
+        hx-swap-oob="true"
+    >
+
+    <dl id="results" hx-swap-oob="true">
+        {% if no_matching_panel %}
+            No matching panel
+        {% endif %}
+
+        {% for res in results %}
+            {% include 'lab/partials/testresult_form.html' with testresult=res.tr prefix=res.prefix del=res.del %}
+        {% endfor %}
+    </dl>
+{% endif %}

@@ -1,0 +1,73 @@
+<div id="div_id_{{ field }}" class="mb-3">
+    <label class="form-label requiredField" for="id_{{ field }}">
+        {{ label }}<span class="asteriskField">*</span>
+    </label>
+    <input
+        id="id_{{ field }}"
+        name="{{ field }}"
+        class="textinput form-control {% if errors %} is-invalid {% endif %}"
+        type="text"
+
+        {% if ac_counter %}
+            hx-post="{% url 'custom_fields:autocomplete-update' field %}"
+            hx-target="#div_id_{{ field }}"
+            hx-swap="outerHTML"
+            hx-trigger="input changed"
+        {% endif %}
+
+        {% if errors %}
+            aria-invalid="true"
+            aria-describedby="id_{{ field }}_error"
+        {% endif %}
+
+        value = "{{ ac_text }}"
+        placeholder="Use Arrow Up and Down to autocomplete"
+    >
+
+    {% if errors %}
+        <div id="id_{{ field }}_error" class="invalid-feedback">
+            {% for e in errors %}
+                <p id="error_{{ forloop.counter }}_id_{{ field }}">
+                    <strong>{{ e }}</strong>
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div
+        hx-post="{% url 'custom_fields:autocomplete-navigate' field 'up' %}"
+        hx-target="#div_id_{{ field }}"
+        hx-swap="outerHTML"
+        hx-trigger="keydown[key=='ArrowUp'] from:#id_{{ field }}"
+    ></div>
+    <div
+        hx-post="{% url 'custom_fields:autocomplete-navigate' field 'down' %}"
+        hx-target="#div_id_{{ field }}"
+        hx-swap="outerHTML"
+        hx-trigger="keydown[key=='ArrowDown'] from:#id_{{ field }}"
+    ></div>
+
+    {% if ac_counter %}
+        <input type="hidden" name="{{ field }}_ac_query" value="{{ ac_query }}">
+    {% endif %}
+
+    <input type="hidden" name="{{ field }}_ac_counter" value="{{ ac_counter }}">
+    <input type="hidden" name="{{ field }}_ac_search_field" value="{{ ac_search_field }}">
+    <input type="hidden" name="{{ field }}_label" value="{{ label }}">
+    <input type="hidden" name="{{ field }}_app" value="{{ app }}">
+    <input type="hidden" name="{{ field }}_model" value="{{ model }}">
+
+    {% if on_load_post %}
+        <input type="hidden" name="{{ field }}_on_load_post" value="{{ on_load_post }}">
+        <div
+            hx-post="{{ on_load_post }}"
+            hx-target="closest div"
+            hx-swap="outerHTML"
+            hx-trigger="load"
+        >
+            {% if initial_render %}
+                <input type="hidden" name="{{ field }}_initial_render" value="{{ initial_render }}">
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
