@@ -1,0 +1,22 @@
+<div id="search-results" hx-swap-oob="true">
+    {% if search_results %}
+        <div style="height: 10rem; overflow-y: scroll;">
+            <div class="list-group list-group-flush">
+                {% for test in search_results%}
+                    <a id="search-test-{{ test.pk }}"
+                        class="list-group-item text-truncate {% if test.is_disabled %}disabled{% endif %}"
+                        style="background-color: transparent;"
+                        title="{{ test.name }}"
+                        hx-post="{% url 'panels:paneltest-append' test.pk %}"
+                        hx-target="#paneltest-list"
+                        hx-swap="beforeend">
+
+                        {{ test.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        No search results.
+    {% endif %}
+</div>

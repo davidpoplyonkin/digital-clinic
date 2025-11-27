@@ -1,0 +1,8 @@
+{% for pt in paneltest_rows %}
+    <input
+        type="hidden"
+        name="{{ pt.order_name }}"
+        value="{{ pt.order_value }}" 
+        id="id_{{ pt.order_name }}"
+        hx-swap-oob="true">    
+{% endfor %}
