@@ -103,6 +103,7 @@ def test_upsert_view(request, pk = None):
             formset_errors.add(e)
 
     return render(request, "tests/test_form.html", {
+        "app": "tests",
         "form": form,
         "formset": formset,
         "formset_errors": formset_errors,
@@ -117,6 +118,7 @@ def test_delete_view(request, pk):
         return redirect("tests:test-list")
     
     context = {
+        "app": "tests",
         "title": "Test",
         "obj": obj,
         "url_detail": "tests:test-detail",

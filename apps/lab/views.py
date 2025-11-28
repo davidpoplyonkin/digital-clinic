@@ -15,7 +15,7 @@ from ..tests.models import Test
 try:
     from .utils.lab_pdf_generator import generate_pdf
 except ImportError:
-    from utils.example_pdf_generator import generate_pdf
+    from core.utils.example_pdf_generator import generate_pdf
 
 @login_required
 def lab_list_view(request):
@@ -141,6 +141,8 @@ class LabWizardView(LoginRequiredMixin, SessionWizardView):
     
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+
+        context["app"] = "lab"
         
         if self.steps.current == "res":
             # Prepare context for the template.
@@ -295,6 +297,7 @@ def lab_delete_view(request, pk):
         return redirect("lab:lab-list")
     
     context = {
+        "app": "lab",
         "title": "Lab",
         "obj": obj,
         "url_detail": "lab:lab-detail",

@@ -9,7 +9,7 @@
         type="text"
 
         {% if ac_counter %}
-            hx-post="{% url 'custom_fields:autocomplete-update' field %}"
+            hx-post="{% url 'core:autocomplete-update' field %}"
             hx-target="#div_id_{{ field }}"
             hx-swap="outerHTML"
             hx-trigger="input changed"
@@ -35,13 +35,13 @@
     {% endif %}
 
     <div
-        hx-post="{% url 'custom_fields:autocomplete-navigate' field 'up' %}"
+        hx-post="{% url 'core:autocomplete-navigate' field 'up' %}"
         hx-target="#div_id_{{ field }}"
         hx-swap="outerHTML"
         hx-trigger="keydown[key=='ArrowUp'] from:#id_{{ field }}"
     ></div>
     <div
-        hx-post="{% url 'custom_fields:autocomplete-navigate' field 'down' %}"
+        hx-post="{% url 'core:autocomplete-navigate' field 'down' %}"
         hx-target="#div_id_{{ field }}"
         hx-swap="outerHTML"
         hx-trigger="keydown[key=='ArrowDown'] from:#id_{{ field }}"

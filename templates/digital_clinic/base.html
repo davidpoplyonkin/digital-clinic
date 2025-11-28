@@ -28,30 +28,36 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-md fixed-top border-bottom">
-            <div class="container">
-                <h1 class="navbar-brand">Digital Clinic</h1>
-                <div class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-secondary nav-item">
-                                <i class="bi bi-box-arrow-right"></i> Logout
-                            </button>
-                        </form>
-                    {% else %}
-                        <a
-                            class="btn btn-outline-secondary nav-item"
-                            href="{% url 'login' %}"
-                        ><i class="bi bi-box-arrow-in-left"></i> Login</a>
-                    {% endif %}
-                </div>
+        {% load nav_tags%}
+
+        <nav class="navbar fixed-top border-bottom ps-4 pe-4">
+            <h1 class="navbar-brand pb-0">Digital Clinic</h1>
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary nav-item">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
+                {% else %}
+                    <a
+                        class="btn btn-outline-secondary nav-item"
+                        href="{% url 'login' %}"
+                    ><i class="bi bi-box-arrow-in-left"></i> Login</a>
+                {% endif %}
             </div>
         </nav>
 
-        <main role="main" class="container">
-            {% block content %}{% endblock %}
-        </main>
+        <div class="row ps-4 pe-4">
+            {% if user.is_authenticated %}
+                {% get_nav_pills app %}
+            {% endif %}
+            
+            <main role="main" class="container col">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
 
         <script>
             document.body.addEventListener('htmx:configRequest', (event) => {

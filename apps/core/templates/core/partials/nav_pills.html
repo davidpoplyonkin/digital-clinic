@@ -1,0 +1,12 @@
+<ul class="nav nav-pills col-auto flex-column ">
+    {% for pill, details in nav_pills.items %}
+        <li class="nav-item">
+            <a
+                class="nav-link {% if app in details.apps %}active{% endif %}"
+                href="{% url details.url_main %}"
+            >
+                <i class="bi {{ details.bootstrap_icon }}"></i> {{ pill }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

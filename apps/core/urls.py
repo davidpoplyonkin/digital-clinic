@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = "custom_fields"
+app_name = "core"
 
 urlpatterns = [
     path("htmx/autocomplete/<str:field>/", views.autocomplete_update, name = "autocomplete-update"),

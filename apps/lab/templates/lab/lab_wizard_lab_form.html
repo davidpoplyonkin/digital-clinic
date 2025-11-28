@@ -4,7 +4,7 @@
 {% block form %}
     <h1>Lab</h1>
 
-    {% include 'custom_fields/partials/autocomplete.html' with field='lab-patient' ac_text=form.patient.value|default_if_none:'' ac_counter=0 ac_search_field='full_name' label='Patient' app='patients' model='Patient' errors=form.patient.errors %}
+    {% include 'core/partials/autocomplete.html' with field='lab-patient' ac_text=form.patient.value|default_if_none:'' ac_counter=0 ac_search_field='full_name' label='Patient' app='patients' model='Patient' errors=form.patient.errors %}
     {{ form.date|as_crispy_field }}
-    {% include 'custom_fields/partials/autocomplete.html' with field='lab-place' ac_text=form.place.value|default_if_none:'' ac_counter=0 ac_search_field='place' label='Place' app='lab' model='Lab' errors=form.place.errors %}
+    {% include 'core/partials/autocomplete.html' with field='lab-place' ac_text=form.place.value|default_if_none:'' ac_counter=0 ac_search_field='place' label='Place' app='lab' model='Lab' errors=form.place.errors %}
 {% endblock %}

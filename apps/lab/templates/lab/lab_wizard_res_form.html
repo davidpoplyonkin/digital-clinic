@@ -4,7 +4,7 @@
 {% block form %}
             <h1>Lab</h1>
 
-            {% include 'custom_fields/partials/autocomplete.html' with field='panel' ac_text=form.panel.value|default_if_none:'' ac_counter=0 ac_search_field='name' label='Panel' app='panels' model='Panel' errors=form.panel.errors initial_render=True on_load_post=panel_on_load_post %}
+            {% include 'core/partials/autocomplete.html' with field='panel' ac_text=form.panel.value|default_if_none:'' ac_counter=0 ac_search_field='name' label='Panel' app='panels' model='Panel' errors=form.panel.errors initial_render=True on_load_post=panel_on_load_post %}
 
             <h3>Results</h3>
 
