@@ -2,7 +2,7 @@ from django import forms
 
 from ..patients.models import Patient
 from .models import Lab, TestResult
-from ..custom_fields.fields import AutocompleteField
+from ..core.forms.fields import AutocompleteField
 
 class LabWizardLabForm(forms.ModelForm):
     patient = AutocompleteField(Patient, "full_name", "patient")

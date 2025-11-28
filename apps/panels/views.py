@@ -97,6 +97,7 @@ def panel_upsert_view(request, pk = None):
     )
 
     return render(request, "panels/panel_form.html", {
+        "app": "panels",
         "form": form,
         "formset": formset,
     })
@@ -111,6 +112,7 @@ def panel_delete_view(request, pk):
         return redirect("panels:panel-list")
     
     context = {
+        "app": "panels",
         "title": "Panel",
         "obj": obj,
         "url_detail": "panels:panel-detail",

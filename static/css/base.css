@@ -1,6 +1,7 @@
 :root {
   --color-header: #6fcec4;
   --color-text: #abb4bc;
+  --color-text-muted: #899097;
   --color-bg: #1b1f21;
   --color-bg-secondary: #202528;
   --color-border: #444950;
@@ -10,11 +11,11 @@
 body {
   color: var(--color-text);
   background: var(--color-bg-secondary);
-  margin-top: 5rem;
+  padding-top: 5rem;
 }
 
 nav {
-  background: var(--color-bg)
+  background: var(--color-bg);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -46,4 +47,19 @@ ul {
 
 dd {
     padding-left: 1rem;
+}
+
+.nav .nav-link{
+  color: var(--color-text-muted);
+}
+
+.container .nav .active {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+.nav-pills .active {
+  color: var(--color-text) !important;
+  background-color: var(--color-bg) !important;
+  border: 1px solid var(--color-border);
 }

@@ -70,10 +70,22 @@ def patient_detail_view(request, pk):
 class PatientCreateView(LoginRequiredMixin, CreateView):
     model = Patient
     form_class = PatientForm
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["app"] = "patients"
+
+        return context
 
 class PatientUpdateView(LoginRequiredMixin, UpdateView):
     model = Patient
     form_class = PatientForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["app"] = "patients"
+
+        return context
 
 @login_required
 def patient_delete_view(request, pk):
@@ -85,6 +97,7 @@ def patient_delete_view(request, pk):
         return redirect("patients:patient-list")
     
     context = {
+        "app": "patients",
         "title": "Patient",
         "obj": obj,
         "url_detail": "patients:patient-detail",

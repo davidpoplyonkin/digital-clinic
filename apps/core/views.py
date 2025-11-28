@@ -19,7 +19,7 @@ def autocomplete_update(request, field):
         "on_load_post": request.POST.get(f"{field}_on_load_post"),
     }
 
-    return render(request, "custom_fields/partials/autocomplete.html", context)
+    return render(request, "core/partials/autocomplete.html", context)
 
 @login_required
 def autocomplete_navigate(request, field, direction):
@@ -78,4 +78,4 @@ def autocomplete_navigate(request, field, direction):
     # given that the user is not supposed to type anything after they
     # find the correct name.
 
-    return render(request, "custom_fields/partials/autocomplete.html", context)
+    return render(request, "core/partials/autocomplete.html", context)
