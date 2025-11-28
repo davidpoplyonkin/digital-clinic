@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator
 from django.db.models import Prefetch, Min, Q
 from formtools.wizard.views import SessionWizardView
@@ -10,6 +11,11 @@ from .forms import (LabWizardLabForm, LabWizardResForm, LabWizardResFormSet,
                     LabWizardResStep)
 from .models import Lab, TestResult
 from ..tests.models import Test
+
+try:
+    from .utils.lab_pdf_generator import generate_pdf
+except ImportError:
+    from utils.example_pdf_generator import generate_pdf
 
 @login_required
 def lab_list_view(request):
@@ -56,6 +62,11 @@ def lab_detail_view(request, pk):
                 "bootstrap_class": "btn-outline-secondary",
                 "bootstrap_icon": "bi-pencil",
                 "text": "Edit",
+            }, {
+                "url": "lab:lab-print",
+                "bootstrap_class": "btn-outline-secondary",
+                "bootstrap_icon": "bi-printer",
+                "text": "Print",
             }, {
                 "url": "lab:lab-delete",
                 "bootstrap_class": "btn-outline-danger",
@@ -290,3 +301,19 @@ def lab_delete_view(request, pk):
     }
 
     return render(request, "digital_clinic/delete_view.html", context)
+
+@login_required
+def lab_print(request, pk):
+    try:
+        obj = (
+            Lab.objects
+            .prefetch_related("patient", "testresult_set__test")
+            .get(pk=pk)
+        )
+    except Lab.DoesNotExist:
+        raise Http404("Lab object not found")
+
+    response = HttpResponse(generate_pdf(obj), content_type="application/pdf")
+    response["Content-Disposition"] = "attachment; filename=lab.pdf"
+
+    return response

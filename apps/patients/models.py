@@ -94,3 +94,9 @@ class Patient(models.Model):
             age -= 1
 
         return age
+    
+    def get_bmi(self):
+        if self.weight and self.height:
+            return self.weight / (self.height * self.height)
+        else:
+            return None

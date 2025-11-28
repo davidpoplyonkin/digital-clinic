@@ -12,3 +12,11 @@ db.sqlite3
 
 # macOS Finder
 .DS_Store
+
+# PDF generators
+*_pdf_generator.py
+!example_pdf_generator.py
+
+# Static
+/static/img/
+/static/fonts/
