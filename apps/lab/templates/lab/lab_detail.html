@@ -1,27 +1,34 @@
 {% extends "digital_clinic/detail_view.html" %}
 
 {% block details %}
+    <div class="newspaper-layout">
+        <dl class="mt-2 mb-0">
+            <div class="no-break-item">
+                <dt>Patient</dt>
+                <dd>{{ obj.patient }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Date</dt>
+                <dd>{{ obj.date }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Place</dt>
+                <dd>{{ obj.place }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Panel</dt>
+                <dd>{{ obj.panel }}</dd>
+            </div>
+        </dl>
 
-    <dl class="mt-2 mb-0">
-        <dt>Patient</dt>
-        <dd>{{ obj.patient }}</dd>
-
-        <dt>Date</dt>
-        <dd>{{ obj.date }}</dd>
-        
-        <dt>Place</dt>
-        <dd>{{ obj.place }}</dd>
-
-        <dt>Panel</dt>
-        <dd>{{ obj.panel }}</dd>
-    </dl>
-
-    <h3>Results</h3>
-    <dl>
-    {% for r in res %}
-        <dt>{{ r.test.name }}</dt>
-        <dd>{{ r.value}} {{ r.test.units }}</dd>
-    {% endfor%}
-    </dl>
-
+        <h3>Results</h3>
+        <dl>
+        {% for r in res %}
+            <div class="no-break-item">
+                <dt>{{ r.test.name }}</dt>
+                <dd>{{ r.value}} {{ r.test.units }}</dd>
+            </div>
+        {% endfor%}
+        </dl>
+    </div>
 {% endblock %}
