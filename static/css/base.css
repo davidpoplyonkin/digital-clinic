@@ -34,6 +34,14 @@ ul {
   margin-bottom: 1rem;
 }
 
+.newspaper-layout {
+  column-count: 2;
+}
+
+.no-break-item {
+  break-inside: avoid;
+}
+
 .sticky-header{
   position: sticky;
   top: 0;

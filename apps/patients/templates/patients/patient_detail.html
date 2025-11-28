@@ -2,10 +2,12 @@
 
 {% block details %}
 
-    <dl class="mt-2 mb-0">
+    <dl class="mt-2 mb-0 newspaper-layout">
         {% for field in obj_fields %}
-            <dt>{{ field.name }}</dt>
-            <dd>{{ field.value|default:"-" }}</dd>
+            <div class="no-break-item">
+                <dt>{{ field.name }}</dt>
+                <dd>{{ field.value|default:"-" }}</dd>
+            </div>
         {% endfor %}
     </dl>
 
