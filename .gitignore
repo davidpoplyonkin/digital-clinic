@@ -18,5 +18,8 @@ db.sqlite3
 !example_pdf_generator.py
 
 # Static
-/static/img/
-/static/fonts/
+django_app/static/img/
+django_app/static/fonts/
+
+# SSL Certificate
+*.pem
