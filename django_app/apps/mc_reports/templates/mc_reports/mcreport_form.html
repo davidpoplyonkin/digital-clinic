@@ -1,0 +1,22 @@
+{% extends "digital_clinic/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+
+            <h1>Lab</h1>
+
+            {% include 'core/partials/autocomplete.html' with field='origin' ac_text=form.origin.value|default_if_none:'' ac_counter=0 ac_search_field='origin' label='Origin' app='mc_reports' model='MCReport' errors=form.origin.errors %}
+            {{ form.date|as_crispy_field }}
+            {% include 'core/partials/autocomplete.html' with field='patient' ac_text=form.patient.value|default_if_none:'' ac_counter=0 ac_search_field='full_name' label='Patient' app='patients' model='Patient' errors=form.patient.errors %}
+            {{ form.state_lab|as_crispy_field }}
+            {{ form.state_other|as_crispy_field }}
+            {{ form.conclusion|as_crispy_field }}
+            {{ form.recommendations|as_crispy_field }}
+            
+            {% include 'digital_clinic/partials/form_actions.html' with pk=form.instance.pk url_list='mc_reports:mcr-list' url_detail='mc_reports:mcr-detail' %}
+        </form>
+    </div>
+{% endblock content %}

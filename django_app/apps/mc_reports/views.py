@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import MCReport
+from .forms import MCReportForm
 
 @login_required
 def mcr_list_view(request):
@@ -38,15 +41,38 @@ def mcr_detail_view(request, pk):
     context = {
         "app": "mc_reports",
         "obj": mcr,
-        "additional_buttons": [],
+        "additional_buttons": [
+            {
+                "url": "mc_reports:mcr-update",
+                "bootstrap_class": "btn-outline-secondary",
+                "bootstrap_icon": "bi-pencil",
+                "text": "Edit",
+            }
+        ],
         "url_list": "mc_reports:mcr-list"
     }
     
     return render(request, "mc_reports/mcr_detail.html", context)
 
-@login_required
-def mcr_upsert_view(request):
-    pass
+class MCReportCreateView(LoginRequiredMixin, CreateView):
+    model = MCReport
+    form_class = MCReportForm
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["app"] = "mc_reports"
+
+        return context
+
+class MCReportUpdateView(LoginRequiredMixin, UpdateView):
+    model = MCReport
+    form_class = MCReportForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["app"] = "mc_reports"
+
+        return context
 
 @login_required
 def mcr_delete_view(request):
