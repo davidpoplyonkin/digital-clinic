@@ -18,6 +18,13 @@ nav_pills = {
             "panels": "panels:panel-list",
             "tests": "tests:test-list",
         }
+    },
+    "MC Reports": {
+        "url_main": "mc_reports:mcr-list",
+        "bootstrap_icon": "bi-file-text",
+        "apps": {
+            "mc_reports": "mc_reports:mcr-list",
+        }
     }
 }
 
