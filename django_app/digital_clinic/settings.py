@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "apps.panels.apps.PanelsConfig",
     "apps.core.apps.CoreConfig",
     "apps.lab.apps.LabConfig",
+    "apps.mc_reports.apps.McReportsConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "django.contrib.admin",
