@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
@@ -32,8 +32,17 @@ def mcr_list_view(request):
     return render(request, "mc_reports/mcr_list.html", context)
 
 @login_required
-def mcr_detail_view(request):
-    pass
+def mcr_detail_view(request, pk):
+    mcr = get_object_or_404(MCReport, pk = pk)
+    
+    context = {
+        "app": "mc_reports",
+        "obj": mcr,
+        "additional_buttons": [],
+        "url_list": "mc_reports:mcr-list"
+    }
+    
+    return render(request, "mc_reports/mcr_detail.html", context)
 
 @login_required
 def mcr_upsert_view(request):

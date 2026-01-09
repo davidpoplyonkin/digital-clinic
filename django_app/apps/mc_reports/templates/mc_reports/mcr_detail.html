@@ -1,0 +1,36 @@
+{% extends "digital_clinic/detail_view.html" %}
+
+{% block details %}
+    <div class="newspaper-layout">
+        <dl class="mt-2 mb-0">
+            <div class="no-break-item">
+                <dt>Origin</dt>
+                <dd>{{ obj.origin }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Date</dt>
+                <dd>{{ obj.date }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Patient</dt>
+                <dd>{{ obj.patient }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>State Lab</dt>
+                <dd>{{ obj.get_state_lab_display }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>State Other</dt>
+                <dd>{{ obj.get_state_other_display }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Conclusion</dt>
+                <dd>{{ obj.conclusion }}</dd>
+            </div>
+            <div class="no-break-item">
+                <dt>Recommendations</dt>
+                <dd>{{ obj.recommendations }}</dd>
+            </div>
+        </dl>
+    </div>
+{% endblock %}
