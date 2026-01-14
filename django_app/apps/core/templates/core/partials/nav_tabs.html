@@ -1,13 +1,13 @@
 {% for tab_group in tab_groups %}
-    {% if app in tab_group %}
+    {% if app in tab_group.keys %}
         <ul class="nav nav-tabs ms-3 me-3 border-bottom-0">
-            {% for related_app, url_main in tab_group.items %}
+            {% for related_app, details in tab_group.items %}
                 <li class="nav-item">
                     <a
                         class="nav-link {% if related_app == app %} active {% endif %}" 
-                        href="{% url url_main %}"
+                        href="{% url details.link %}"
                     >
-                        {{ related_app|capfirst }}
+                        {{ details.name }}
                     </a>
                 </li>
             {% endfor %}
