@@ -14,8 +14,8 @@ from ..tests.models import Test
 
 try:
     from .utils.lab_pdf_generator import generate_pdf
-except ImportError:
-    from core.utils.example_pdf_generator import generate_pdf
+except ModuleNotFoundError:
+    from ..core.utils.example_pdf_generator import generate_pdf
 
 @login_required
 def lab_list_view(request):

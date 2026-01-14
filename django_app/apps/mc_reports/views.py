@@ -3,9 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, Http404
 
 from .models import MCReport
 from .forms import MCReportForm
+
+try:
+    from .utils.mcr_pdf_generator import generate_pdf
+except ModuleNotFoundError:
+    from ..core.utils.example_pdf_generator import generate_pdf
 
 @login_required
 def mcr_list_view(request):
@@ -47,6 +53,11 @@ def mcr_detail_view(request, pk):
                 "bootstrap_class": "btn-outline-secondary",
                 "bootstrap_icon": "bi-pencil",
                 "text": "Edit",
+            }, {
+                "url": "mc_reports:mcr-print",
+                "bootstrap_class": "btn-outline-secondary",
+                "bootstrap_icon": "bi-printer",
+                "text": "Print",
             }, {
                 "url": "mc_reports:mcr-delete",
                 "bootstrap_class": "btn-outline-danger",
@@ -96,3 +107,19 @@ def mcr_delete_view(request, pk):
     }
 
     return render(request, "digital_clinic/delete_view.html", context)
+
+@login_required
+def mcr_print(request, pk):
+    try:
+        obj = (
+            MCReport.objects
+            .prefetch_related("patient")
+            .get(pk=pk)
+        )
+    except MCReport.DoesNotExist:
+        raise Http404("MC Report object not found")
+
+    response = HttpResponse(generate_pdf(obj), content_type="application/pdf")
+    response["Content-Disposition"] = "attachment; filename=mcr.pdf"
+
+    return response
