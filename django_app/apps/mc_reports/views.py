@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView
@@ -47,6 +47,11 @@ def mcr_detail_view(request, pk):
                 "bootstrap_class": "btn-outline-secondary",
                 "bootstrap_icon": "bi-pencil",
                 "text": "Edit",
+            }, {
+                "url": "mc_reports:mcr-delete",
+                "bootstrap_class": "btn-outline-danger",
+                "bootstrap_icon": "bi-trash",
+                "text": "Delete",
             }
         ],
         "url_list": "mc_reports:mcr-list"
@@ -75,5 +80,19 @@ class MCReportUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 @login_required
-def mcr_delete_view(request):
-    pass
+def mcr_delete_view(request, pk):
+
+    obj = get_object_or_404(MCReport, pk=pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("mc_reports:mcr-list")
+    
+    context = {
+        "app": "mc_reports",
+        "title": "MC Report",
+        "obj": obj,
+        "url_detail": "mc_reports:mcr-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
