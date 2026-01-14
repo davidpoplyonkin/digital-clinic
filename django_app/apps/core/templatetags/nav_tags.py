@@ -7,23 +7,38 @@ nav_pills = {
         "url_main": "patients:patient-list",
         "bootstrap_icon": "bi-person",
         "apps": {
-            "patients": "patients:patient-list",
+            "patients": {
+                "name": "Patients",
+                "link": "patients:patient-list"
+            },
         }
     },
     "Lab": {
         "url_main": "lab:lab-list",
         "bootstrap_icon": "bi-flask",
         "apps": {
-            "lab": "lab:lab-list",
-            "panels": "panels:panel-list",
-            "tests": "tests:test-list",
+            "lab": {
+                "name": "Lab",
+                "link": "lab:lab-list"
+            },
+            "panels": {
+                "name": "Panels",
+                "link": "panels:panel-list"
+            },
+            "tests": {
+                "name": "Tests",
+                "link": "tests:test-list"
+            },
         }
     },
     "MC Reports": {
         "url_main": "mc_reports:mcr-list",
         "bootstrap_icon": "bi-file-text",
         "apps": {
-            "mc_reports": "mc_reports:mcr-list",
+            "mc_reports": {
+                "name": "MC Reports",
+                "link": "mc_reports:mcr-list"
+            },
         }
     }
 }
