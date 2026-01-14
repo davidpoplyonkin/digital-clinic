@@ -10,4 +10,5 @@ urlpatterns = [
     path("new/", views.MCReportCreateView.as_view(), name="mcr-create"),
     path("<int:pk>/update/", views.MCReportUpdateView.as_view(), name="mcr-update"),
     path("<int:pk>/delete/", views.mcr_delete_view, name="mcr-delete"),
+    path("<int:pk>/print/", views.mcr_print, name="mcr-print"),
 ]
