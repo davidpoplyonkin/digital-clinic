@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="content-section">
-        <form method="POST">
+        <form method="POST" action="{% if form.instance.pk %} {% url 'mc_reports:mcr-update' form.instance.pk %} {% else %} {% url 'mc_reports:mcr-create' %} {% endif %}">
             {% csrf_token %}
 
             <h1>Lab</h1>
