@@ -53,6 +53,11 @@ def mcr_detail_view(request, pk):
                 "bootstrap_class": "btn-outline-secondary",
                 "bootstrap_icon": "bi-pencil",
                 "text": "Edit",
+            },{
+                "url": "mc_reports:mcr-copy",
+                "bootstrap_class": "btn-outline-secondary",
+                "bootstrap_icon": "bi-copy",
+                "text": "Copy",
             }, {
                 "url": "mc_reports:mcr-print",
                 "bootstrap_class": "btn-outline-secondary",
@@ -123,3 +128,24 @@ def mcr_print(request, pk):
     response["Content-Disposition"] = "attachment; filename=mcr.pdf"
 
     return response
+
+@login_required
+def mcr_copy(request, pk):
+    obj = get_object_or_404(MCReport, pk=pk)
+
+    fields = {
+        field.name: getattr(obj, field.name)
+        for field in obj._meta.fields
+        if field != "id"
+    }
+
+    form = MCReportForm(fields)
+
+    context = {
+        "app": "mc_reports",
+        "form": form
+    }
+
+    return render(request, "mc_reports/mcreport_form.html", context)
+
+
