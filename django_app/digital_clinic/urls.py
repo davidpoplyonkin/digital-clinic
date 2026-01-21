@@ -27,5 +27,6 @@ urlpatterns = [
     path("panels/", include("apps.panels.urls")),
     path("lab/", include("apps.lab.urls")),
     path("core/", include("apps.core.urls")),
-    path("mc-reports/", include("apps.mc_reports.urls"))
+    path("mc-reports/", include("apps.mc_reports.urls")),
+    path("x-rays/", include("apps.x_rays.urls")),
 ]

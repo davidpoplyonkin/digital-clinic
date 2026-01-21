@@ -40,6 +40,16 @@ nav_pills = {
                 "link": "mc_reports:mcr-list"
             },
         }
+    },
+    "X-Rays": {
+        "url_main": "x_rays:x-rays-list",
+        "bootstrap_icon": "bi-radioactive",
+        "apps": {
+            "x_rays": {
+                "name": "X-Rays",
+                "link": "x_rays:x-rays-list"
+            }
+        }
     }
 }
 
