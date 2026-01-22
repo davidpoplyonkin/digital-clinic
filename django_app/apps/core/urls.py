@@ -5,6 +5,7 @@ from . import views
 app_name = "core"
 
 urlpatterns = [
-    path("htmx/autocomplete/<str:field>/", views.autocomplete_update, name = "autocomplete-update"),
-    path("htmx/autocomplete/<str:field>/<str:direction>/", views.autocomplete_navigate, name = "autocomplete-navigate"),
+    path("htmx/autocomplete/<str:field>/", views.autocomplete_update, name="autocomplete-update"),
+    path("htmx/autocomplete/<str:field>/<str:direction>/", views.autocomplete_navigate, name="autocomplete-navigate"),
+    path("htmx/list-search", views.list_search, name="list-search")
 ]

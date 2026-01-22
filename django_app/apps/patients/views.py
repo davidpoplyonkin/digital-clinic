@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,27 +8,15 @@ from .forms import PatientForm
 
 @login_required
 def patient_list_view(request):    
-    search = request.GET.get("search")
-    if search:
-        results = Patient.objects.filter(full_name__icontains = search) 
-    else:
-        search = ""
-        results = Patient.objects.all()
-
-    paginator = Paginator(results.order_by("full_name"), per_page = 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
     context = {
         "app": "patients",
-        "search": search,
+        "model": "Patient",
+        "search_id": "search__full_name",
         "search_placeholder": "Patient Name",
         "url_create": "patients:patient-create",
-        "url_this": "patients:patient-list",
-        "page_obj": page_obj,
     }
 
-    return render(request, "patients/patient_list.html", context)
+    return render(request, "digital_clinic/list_view.html", context)
 
 @login_required
 def patient_detail_view(request, pk):

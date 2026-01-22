@@ -6,7 +6,7 @@
         <div>
             <a 
                 id="back-button"
-                href="#"
+                href="{% url 'patients:patient-list' %}"
                 class="btn btn-outline-secondary"
             >
                 <i class="bi bi-arrow-left"></i> Back
@@ -21,17 +21,6 @@
                 </a>     
             {% endfor %}         
         </div>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const app = "{{ app }}";
-                const search = sessionStorage.getItem(app + "Search") || "";
-                const page = sessionStorage.getItem(app + "Page") || "1";
-                const backButton = document.getElementById("back-button");
-                
-                backButton.href = `{% url url_list %}?search=${search}&page=${page}`
-            });
-        </script>
 
         {% block details %}{% endblock %}
     </div>
