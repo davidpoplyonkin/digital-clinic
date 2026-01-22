@@ -17,8 +17,12 @@ def mcr_list_view(request):
     context = {
         "app": "mc_reports",
         "model": "MCReport",
-        "search_id": "search__patient__full_name",
-        "search_placeholder": "Patient Name",
+        "search_fields": [
+            {
+                "id": "search__patient__full_name",
+                "placeholder": "Patient",
+            }
+        ],
         "url_create": "mc_reports:mcr-create",
     }
 

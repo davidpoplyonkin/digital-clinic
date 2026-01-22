@@ -14,8 +14,12 @@ def panel_list_view(request):
     context = {
         "app": "panels",
         "model": "Panel",
-        "search_id": "search__name",
-        "search_placeholder": "Panel Name",
+        "search_fields": [
+            {
+                "id": "search__name",
+                "placeholder": "Panel",
+            }
+        ],
         "url_create": "panels:panel-create",
     }
 

@@ -11,8 +11,12 @@ def patient_list_view(request):
     context = {
         "app": "patients",
         "model": "Patient",
-        "search_id": "search__full_name",
-        "search_placeholder": "Patient Name",
+        "search_fields": [
+            {
+                "id": "search__full_name",
+                "placeholder": "Patient"
+            }
+        ],
         "url_create": "patients:patient-create",
     }
 

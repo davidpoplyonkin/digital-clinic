@@ -11,8 +11,12 @@ def test_list_view(request):
     context = {
         "app": "tests",
         "model": "Test",
-        "search_id": "search__name",
-        "search_placeholder": "Test Name",
+        "search_fields": [
+            {
+                "id": "search__name",
+                "placeholder": "Test",
+            }
+        ],
         "url_create": "tests:test-create",
     }
 

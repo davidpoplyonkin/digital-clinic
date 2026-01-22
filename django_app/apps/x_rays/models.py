@@ -12,3 +12,9 @@ class XRaysExamination(models.Model):
     conclusion = models.TextField()
     recommendations = models.TextField()
     doctor_name = models.CharField(max_length=30)
+
+    class Meta:
+        ordering = ["-date"]
+
+    def __str__(self):
+        return f"X-Rays Examination #{self.pk}"

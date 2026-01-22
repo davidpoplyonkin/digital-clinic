@@ -14,24 +14,49 @@
                 </a>
             </div>
 
-            <div class="col-auto">
-                <div class="input-group">
-                    <input
-                        id="{{ search_id }}"
-                        name="{{ search_id }}"
-                        type="search"
-                        class="form-control"
-                        style="width: 15em"
-                        value=""
-                        placeholder="{{ search_placeholder }}"
-                        hx-post="{% url 'core:list-search' %}"
-                        hx-trigger="input changed delay:500ms"
-                        hx-target="#search-results"
-                        hx-swap="innerHTML"
-                        hx-vals='{"app": "{{ app }}", "model": "{{ model }}", "page": 1}'
-                    >
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                </div>
+            <div class="col-auto d-flex">
+                {% for sf in search_fields %}
+                    <div class="input-group ms-3">
+                        <input
+                            id="{{ sf.id }}"
+                            name="{{ sf.id }}"
+                            type="search"
+                            class="form-control"
+                            style="width: 10em"
+                            value=""
+                            placeholder="{{ sf.placeholder }}"
+                            hx-post="{% url 'core:list-search' %}"
+                            hx-trigger="input changed delay:500ms"
+                            hx-target="#search-results"
+                            hx-swap="innerHTML"
+                            hx-vals='{"app": "{{ app }}", "model": "{{ model }}", "page": 1}'
+                        >
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            const app = "{{ app }}";
+                            const search_id = "{{ sf.id }}";
+                            const search_query = sessionStorage.getItem(app + "__" + search_id) || "";
+                            const search_field = document.getElementById(search_id);
+
+                            if (search_field) {
+                                search_field.value = search_query;
+                            }
+                        });
+
+                        window.addEventListener("beforeunload", function() {
+                            const app = "{{ app }}";
+                            const search_id = "{{ sf.id }}";
+                                        
+                            const search_field = document.getElementById(search_id);
+                            if (search_field) {
+                                sessionStorage.setItem(app + "__" + search_id, search_field.value);
+                            }
+                        });
+                    </script>
+                {% endfor %}
             </div>
         </div>
 
@@ -39,18 +64,9 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', (event) => {
-                const app = "{{ app }}";
-                const search_id = "{{ search_id }}";
-
-                const search_query = sessionStorage.getItem(app + "__" + search_id) || "";
-                const search_field = document.getElementById(search_id);
-
-                if (search_field) {
-                    search_field.value = search_query;
-                }
-                
-                const model = "{{ model }}"
-                const page = sessionStorage.getItem(app + "_page") || 1
+                const app = "{{ app }}";                
+                const model = "{{ model }}";
+                const page = sessionStorage.getItem(app + "_page") || 1;
 
                 htmx.ajax('POST', '{% url "core:list-search" %}', {
                     source: htmx.find('.content-section'),
@@ -62,16 +78,6 @@
                         'page': page,
                     }
                 });
-            });
-
-            window.addEventListener("beforeunload", function() {
-                const app = "{{ app }}";
-                const search_id = "{{ search_id }}";
-                            
-                const search_field = document.getElementById(search_id);
-                if (search_field) {
-                    sessionStorage.setItem(app + "__" + search_id, search_field.value);
-                }
             });
 
             $(document).on('click', '.clickable-row', function() {

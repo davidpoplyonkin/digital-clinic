@@ -22,8 +22,12 @@ def lab_list_view(request):
     context = {
         "app": "lab",
         "model": "Lab",
-        "search_id": "search__patient__full_name",
-        "search_placeholder": "Patient Name",
+        "search_fields": [
+            {
+                "id": "search__patient__full_name",
+                "placeholder": "Patient",
+            }
+        ],
         "url_create": "lab:lab-create",
     }
 
