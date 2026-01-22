@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse, Http404
-from django.core.paginator import Paginator
 from django.db.models import Prefetch, Min, Q
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
@@ -19,29 +18,20 @@ except ModuleNotFoundError:
 
 @login_required
 def lab_list_view(request):
-    search = request.GET.get("search")
-
-    if search:
-        results = Lab.objects.filter(patient__full_name__icontains = search) 
-
-    else:
-        search = ""
-        results = Lab.objects.all()
-
-    paginator = Paginator(results.order_by("-date"), per_page = 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
 
     context = {
         "app": "lab",
-        "search": search,
-        "search_placeholder": "Patient Name",
+        "model": "Lab",
+        "search_fields": [
+            {
+                "id": "search__patient__full_name",
+                "placeholder": "Patient",
+            }
+        ],
         "url_create": "lab:lab-create",
-        "url_this": "lab:lab-list",
-        "page_obj": page_obj,
     }
 
-    return render(request, "lab/lab_list.html", context)
+    return render(request, "digital_clinic/list_view.html", context)
 
 @login_required
 def lab_detail_view(request, pk):
@@ -56,25 +46,12 @@ def lab_detail_view(request, pk):
         "app": "lab",
         "obj": lab,
         "res": res,
-        "additional_buttons": [
-            {
-                "url": "lab:lab-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            }, {
-                "url": "lab:lab-print",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-printer",
-                "text": "Print",
-            }, {
-                "url": "lab:lab-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "lab:lab-list"
+        "buttons": {
+            "back": "lab:lab-list",
+            "edit": "lab:lab-update",
+            "print": "lab:lab-print",
+            "delete": "lab:lab-delete",
+        }
     }
     
     return render(request, "lab/lab_detail.html", context)

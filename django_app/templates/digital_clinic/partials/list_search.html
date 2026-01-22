@@ -1,0 +1,11 @@
+{% if page_obj %}    
+    {% block table %}{% endblock %}
+    
+    {% include 'digital_clinic/partials/paginator_navigation.html' with app=app model=model page_obj=page_obj %}
+
+    <script>
+        sessionStorage.setItem("{{ app }}" + "_page", "{{ page_obj.number }}")
+    </script>
+{% else %}
+    <p class="mt-2">No search results.</p>
+{% endif %}

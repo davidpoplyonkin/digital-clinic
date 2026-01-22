@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, Http404
@@ -15,30 +14,19 @@ except ModuleNotFoundError:
 
 @login_required
 def mcr_list_view(request):
-
-    search = request.GET.get("search")
-
-    if search:
-        results = MCReport.objects.filter(patient__full_name__icontains = search) 
-
-    else:
-        search = ""
-        results = MCReport.objects.all()
-
-    paginator = Paginator(results.order_by("-date"), per_page = 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
     context = {
         "app": "mc_reports",
-        "search": search,
-        "search_placeholder": "Patient Name",
+        "model": "MCReport",
+        "search_fields": [
+            {
+                "id": "search__patient__full_name",
+                "placeholder": "Patient",
+            }
+        ],
         "url_create": "mc_reports:mcr-create",
-        "url_this": "mc_reports:mcr-list",
-        "page_obj": page_obj,
     }
 
-    return render(request, "mc_reports/mcr_list.html", context)
+    return render(request, "digital_clinic/list_view.html", context)
 
 @login_required
 def mcr_detail_view(request, pk):
@@ -47,30 +35,13 @@ def mcr_detail_view(request, pk):
     context = {
         "app": "mc_reports",
         "obj": mcr,
-        "additional_buttons": [
-            {
-                "url": "mc_reports:mcr-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            },{
-                "url": "mc_reports:mcr-copy",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-copy",
-                "text": "Copy",
-            }, {
-                "url": "mc_reports:mcr-print",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-printer",
-                "text": "Print",
-            }, {
-                "url": "mc_reports:mcr-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "mc_reports:mcr-list"
+        "buttons": {
+            "back": "mc_reports:mcr-list",
+            "edit": "mc_reports:mcr-update",
+            "cp": "mc_reports:mcr-copy",
+            "print": "mc_reports:mcr-print",
+            "delete": "mc_reports:mcr-delete",
+        }
     }
     
     return render(request, "mc_reports/mcr_detail.html", context)

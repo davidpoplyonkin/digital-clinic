@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.apps import apps
 
 @login_required
@@ -79,3 +80,40 @@ def autocomplete_navigate(request, field, direction):
     # find the correct name.
 
     return render(request, "core/partials/autocomplete.html", context)
+
+# HTMX
+@login_required
+def list_search(request):
+    """
+    Given the search query and the page, populates the list view with
+    content.
+    """
+
+    app = request.POST.get("app")
+    model = request.POST.get("model")
+    page = request.POST.get("page")
+
+    search_kwargs = {
+        (k.split("__", 1)[1] + "__icontains"): v # "search__field" -> "field__icontains"
+        for k, v in request.POST.items()
+        if k.startswith("search__")
+    }
+
+    try:
+        results = apps.get_model(app, model).objects.filter(**search_kwargs)
+    except:
+        results = None
+
+    if results:
+        paginator = Paginator(results, per_page = 2)
+        page_obj = paginator.get_page(page)
+    else:
+        page_obj = None
+
+    context = {
+        "app": app,
+        "model": model,
+        "page_obj": page_obj,
+    }
+    
+    return render(request, f"{app}/list_table.html", context)

@@ -75,6 +75,9 @@ class Patient(models.Model):
         verbose_name="last colonoscopy"
     )
 
+    class Meta:
+        ordering = ["full_name"]
+
     def __str__(self):
         return self.full_name
     
