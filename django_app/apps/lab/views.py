@@ -42,25 +42,12 @@ def lab_detail_view(request, pk):
         "app": "lab",
         "obj": lab,
         "res": res,
-        "additional_buttons": [
-            {
-                "url": "lab:lab-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            }, {
-                "url": "lab:lab-print",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-printer",
-                "text": "Print",
-            }, {
-                "url": "lab:lab-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "lab:lab-list"
+        "buttons": {
+            "back": "lab:lab-list",
+            "edit": "lab:lab-update",
+            "print": "lab:lab-print",
+            "delete": "lab:lab-delete",
+        }
     }
     
     return render(request, "lab/lab_detail.html", context)

@@ -36,20 +36,11 @@ def patient_detail_view(request, pk):
         "app": "patients",
         "obj": obj,
         "obj_fields": obj_fields,
-        "additional_buttons": [
-            {
-                "url": "patients:patient-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            }, {
-                "url": "patients:patient-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "patients:patient-list"
+        "buttons": {
+            "back": "patients:patient-list",
+            "edit": "patients:patient-update",
+            "delete": "patients:patient-delete",
+        }
     }
     
     return render(request, "patients/patient_detail.html", context)

@@ -31,20 +31,11 @@ def panel_detail_view(request, pk):
         "app": "panels",
         "obj": panel,
         "panel_tests": panel_tests,
-        "additional_buttons": [
-            {
-                "url": "panels:panel-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            }, {
-                "url": "panels:panel-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "panels:panel-list"
+        "buttons": {
+            "back": "panels:panel-list",
+            "edit": "panels:panel-update",
+            "delete": "panels:panel-delete",
+        }
     }
     
     return render(request, "panels/panel_detail.html", context)

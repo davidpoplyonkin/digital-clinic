@@ -28,20 +28,11 @@ def test_detail_view(request, pk):
         "app": "tests",
         "obj": test,
         "age_groups": age_groups,
-        "additional_buttons": [
-            {
-                "url": "tests:test-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            }, {
-                "url": "tests:test-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "tests:test-list",
+        "buttons": {
+            "back": "tests:test-list",
+            "edit": "tests:test-update",
+            "delete": "tests:test-delete",
+        }
     }
     
     return render(request, "tests/test_detail.html", context)

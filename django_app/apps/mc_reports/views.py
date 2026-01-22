@@ -31,30 +31,13 @@ def mcr_detail_view(request, pk):
     context = {
         "app": "mc_reports",
         "obj": mcr,
-        "additional_buttons": [
-            {
-                "url": "mc_reports:mcr-update",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-pencil",
-                "text": "Edit",
-            },{
-                "url": "mc_reports:mcr-copy",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-copy",
-                "text": "Copy",
-            }, {
-                "url": "mc_reports:mcr-print",
-                "bootstrap_class": "btn-outline-secondary",
-                "bootstrap_icon": "bi-printer",
-                "text": "Print",
-            }, {
-                "url": "mc_reports:mcr-delete",
-                "bootstrap_class": "btn-outline-danger",
-                "bootstrap_icon": "bi-trash",
-                "text": "Delete",
-            }
-        ],
-        "url_list": "mc_reports:mcr-list"
+        "buttons": {
+            "back": "mc_reports:mcr-list",
+            "edit": "mc_reports:mcr-update",
+            "cp": "mc_reports:mcr-copy",
+            "print": "mc_reports:mcr-print",
+            "delete": "mc_reports:mcr-delete",
+        }
     }
     
     return render(request, "mc_reports/mcr_detail.html", context)
