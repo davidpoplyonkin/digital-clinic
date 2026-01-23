@@ -105,7 +105,7 @@ def list_search(request):
         results = None
 
     if results:
-        paginator = Paginator(results, per_page = 2)
+        paginator = Paginator(results, per_page = 10)
         page_obj = paginator.get_page(page)
     else:
         page_obj = None

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from .models import XRaysExamination
@@ -25,7 +25,19 @@ def x_rays_list_view(request):
 
 @login_required
 def x_rays_detail_view(request, pk):
-    pass
+
+    obj = get_object_or_404(XRaysExamination, pk = pk)   
+    
+    context = {
+        "app": "patients",
+        "obj": obj,
+        "buttons": {
+            "back": "x_rays:x-rays-list",
+        }
+    }
+    
+    return render(request, "x_rays/x_rays_detail.html", context)
+
 
 @login_required
 def x_rays_create_view(request):
