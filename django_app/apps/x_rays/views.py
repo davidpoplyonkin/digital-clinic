@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,11 +32,12 @@ def x_rays_detail_view(request, pk):
     obj = get_object_or_404(XRaysExamination, pk = pk)   
     
     context = {
-        "app": "patients",
+        "app": "x_rays",
         "obj": obj,
         "buttons": {
             "back": "x_rays:x-rays-list",
             "edit": "x_rays:x-rays-update",
+            "delete": "x_rays:x-rays-delete",
         }
     }
     
@@ -64,3 +65,21 @@ class XRaysUpdateView(LoginRequiredMixin, UpdateView):
         context["app"] = "x_rays"
 
         return context
+
+@login_required
+def x_rays_delete_view(request, pk):
+
+    obj = get_object_or_404(XRaysExamination, pk=pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("x_rays:x-rays-list")
+    
+    context = {
+        "app": "x_rays",
+        "title": "X-Rays Examination",
+        "obj": obj,
+        "url_detail": "x_rays:x-rays-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
