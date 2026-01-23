@@ -9,4 +9,5 @@ urlpatterns = [
     path("<int:pk>/", views.x_rays_detail_view, name="x-rays-detail"),
     path("new/", views.XRaysCreateView.as_view(), name="x-rays-create"),
     path("<int:pk>/update/", views.XRaysUpdateView.as_view(), name="x-rays-update"),
+    path("<int:pk>/delete/", views.x_rays_delete_view, name="x-rays-delete"),
 ]
