@@ -1,0 +1,24 @@
+{% extends "digital_clinic/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="{% if form.instance.pk %} {% url 'x_rays:x-rays-update' form.instance.pk %} {% else %} {% url 'x_rays:x-rays-create' %} {% endif %}">
+            {% csrf_token %}
+
+            <h1>X-Rays Examination</h1>
+
+            {% include 'core/partials/autocomplete.html' with field='patient' ac_text=form.patient.value|default_if_none:'' ac_counter=0 ac_search_field='full_name' label='Patient' app='patients' model='Patient' errors=form.patient.errors %}
+            {% include 'core/partials/autocomplete.html' with field='examination' ac_text=form.examination.value|default_if_none:'' ac_counter=0 ac_search_field='examination' label='Examination' app='x_rays' model='XRaysExamination' errors=form.examination.errors %}
+            {{ form.date|as_crispy_field }}
+            {{ form.medical_record_number|as_crispy_field }}
+            {{ form.technical_parameters|as_crispy_field }}
+            {{ form.description|as_crispy_field }}
+            {{ form.conclusion|as_crispy_field }}
+            {{ form.recommendations|as_crispy_field }}
+            {% include 'core/partials/autocomplete.html' with field='doctor_name' ac_text=form.doctor_name.value|default_if_none:'' ac_counter=0 ac_search_field='doctor_name' label='Doctor Name' app='x_rays' model='XRaysExamination' errors=form.doctor_name.errors %}
+            
+            {% include 'digital_clinic/partials/form_actions.html' with pk=form.instance.pk url_list='x_rays:x-rays-list' url_detail='x_rays:x-rays-detail' %}
+        </form>
+    </div>
+{% endblock content %}

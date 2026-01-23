@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from ..patients.models import Patient
 
@@ -18,3 +19,6 @@ class XRaysExamination(models.Model):
 
     def __str__(self):
         return f"X-Rays Examination #{self.pk}"
+    
+    def get_absolute_url(self):
+        return reverse("x_rays:x-rays-detail", kwargs={"pk": self.pk})
