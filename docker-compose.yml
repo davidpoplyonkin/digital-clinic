@@ -26,11 +26,11 @@ services:
       - "8001:443"
     volumes:
       # These files must exist on the remote machine at the specified location.
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /root/digital_clinic/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
       # SSL Certificate (Again, these files must exist on the remote machine)
-      - ./certs/cert.pem:/etc/ssl/certs/cert.pem:ro
-      - ./certs/key.pem:/etc/ssl/private/key.pem:ro
+      - /root/digital_clinic/certs/cert.pem:/etc/ssl/certs/cert.pem:ro
+      - /root/digital_clinic/certs/key.pem:/etc/ssl/private/key.pem:ro
       
       # Django Static
       - dj_static:/usr/share/nginx/static/:ro

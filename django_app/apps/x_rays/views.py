@@ -37,6 +37,7 @@ def x_rays_detail_view(request, pk):
         "buttons": {
             "back": "x_rays:x-rays-list",
             "edit": "x_rays:x-rays-update",
+            "cp": "x_rays:x-rays-copy",
             "delete": "x_rays:x-rays-delete",
         }
     }
@@ -83,3 +84,22 @@ def x_rays_delete_view(request, pk):
     }
 
     return render(request, "digital_clinic/delete_view.html", context)
+
+@login_required
+def x_rays_copy(request, pk):
+    obj = get_object_or_404(XRaysExamination, pk=pk)
+
+    fields = {
+        field.name: getattr(obj, field.name)
+        for field in obj._meta.fields
+        if field != "id"
+    }
+
+    form = XRaysForm(fields)
+
+    context = {
+        "app": "x_rays",
+        "form": form
+    }
+
+    return render(request, "x_rays/x_rays_form.html", context)
