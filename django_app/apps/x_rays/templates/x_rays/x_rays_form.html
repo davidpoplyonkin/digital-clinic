@@ -12,6 +12,7 @@
             {% include 'core/partials/autocomplete.html' with field='examination' ac_text=form.examination.value|default_if_none:'' ac_counter=0 ac_search_field='examination' label='Examination' app='x_rays' model='XRaysExamination' errors=form.examination.errors %}
             {{ form.date|as_crispy_field }}
             {{ form.medical_record_number|as_crispy_field }}
+            {% include 'core/partials/autocomplete.html' with field='eed' ac_text=form.eed.value|default_if_none:'' ac_counter=0 ac_search_field='eed' label='EED' app='x_rays' model='XRaysExamination' errors=form.eed.errors %}
             {{ form.technical_parameters|as_crispy_field }}
             {{ form.description|as_crispy_field }}
             {{ form.conclusion|as_crispy_field }}

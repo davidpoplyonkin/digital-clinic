@@ -8,6 +8,7 @@ class XRaysExamination(models.Model):
     examination = models.CharField(max_length=200)
     date = models.DateField()
     medical_record_number = models.CharField(max_length=20, blank=True)
+    eed = models.CharField(max_length = 20, blank=True)
     technical_parameters = models.TextField()
     description = models.TextField()
     conclusion = models.TextField()
