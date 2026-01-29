@@ -43,10 +43,13 @@ def autocomplete_navigate(request, field, direction):
     )
 
     ac_search_field = request.POST.get(f"{field}_ac_search_field")
-    ac_query_kwarg = f"{ac_search_field}__icontains"
+    ac_query_kwargs = {
+        f"{ac_search_field}__icontains": ac_query,
+        f"{ac_search_field}__gt": "",
+    }
 
     # Take the objects whose name matches the query.
-    obj = model.objects.filter(**{ac_query_kwarg: ac_query})
+    obj = model.objects.filter(**ac_query_kwargs)
 
     # Take the names of these objects
     options = obj.values_list(ac_search_field, flat = True)
