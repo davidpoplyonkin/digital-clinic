@@ -10,5 +10,6 @@ urlpatterns = [
     path("new/", views.XRaysCreateView.as_view(), name="x-rays-create"),
     path("<int:pk>/update/", views.XRaysUpdateView.as_view(), name="x-rays-update"),
     path("<int:pk>/delete/", views.x_rays_delete_view, name="x-rays-delete"),
-    path("<int:pk>/copy/", views.x_rays_copy, name="x-rays-copy")
+    path("<int:pk>/copy/", views.x_rays_copy, name="x-rays-copy"),
+    path("<int:pk>/print/", views.x_rays_print, name="x-rays-print"),
 ]

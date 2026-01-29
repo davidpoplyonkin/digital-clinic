@@ -2,9 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, Http404
 
 from .models import XRaysExamination
 from .forms import XRaysForm
+
+try:
+    from .utils.x_rays_pdf_generator import generate_pdf
+except ModuleNotFoundError:
+    from ..core.utils.example_pdf_generator import generate_pdf
 
 @login_required
 def x_rays_list_view(request):
@@ -38,6 +44,7 @@ def x_rays_detail_view(request, pk):
             "back": "x_rays:x-rays-list",
             "edit": "x_rays:x-rays-update",
             "cp": "x_rays:x-rays-copy",
+            "print": "x_rays:x-rays-print",
             "delete": "x_rays:x-rays-delete",
         }
     }
@@ -103,3 +110,19 @@ def x_rays_copy(request, pk):
     }
 
     return render(request, "x_rays/x_rays_form.html", context)
+
+@login_required
+def x_rays_print(request, pk):
+    try:
+        obj = (
+            XRaysExamination.objects
+            .prefetch_related("patient")
+            .get(pk=pk)
+        )
+    except XRaysExamination.DoesNotExist:
+        raise Http404("MC Report object not found")
+
+    response = HttpResponse(generate_pdf(obj), content_type="application/pdf")
+    response["Content-Disposition"] = "attachment; filename=mcr.pdf"
+
+    return response
