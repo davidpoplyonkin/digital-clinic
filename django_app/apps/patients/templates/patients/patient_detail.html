@@ -3,12 +3,58 @@
 {% block details %}
 
     <dl class="mt-2 mb-0 newspaper-layout">
-        {% for field in obj_fields %}
-            <div class="no-break-item">
-                <dt>{{ field.name }}</dt>
-                <dd>{{ field.value|default:"-" }}</dd>
-            </div>
-        {% endfor %}
+        <div class="no-break-item">
+            <dt>Name</dt>
+            <dd>{{ obj.full_name }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Gender</dt>
+            <dd>{{ obj.get_gender_display }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>DOB</dt>
+            <dd>{{ obj.dob }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Height (m)</dt>
+            <dd>{{ obj.height|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Weight (kg)</dt>
+            <dd>{{ obj.weight|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Waist Circumference (cm)</dt>
+            <dd>{{ obj.waist_circ|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Phone 1</dt>
+            <dd>{{ obj.phone1|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Phone 2</dt>
+            <dd>{{ obj.phone2|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Address</dt>
+            <dd>{{ obj.address|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Job Title</dt>
+            <dd>{{ obj.job_title|default:"-" }}</dd>
+        </div>
+        <div>
+            <dt>Dispansery Group</dt>
+            <dd>{{ obj.disp|default:"-"|linebreaks }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Last Dispanserisation</dt>
+            <dd>{{ obj.last_disp|default:"-" }}</dd>
+        </div>
+        <div class="no-break-item">
+            <dt>Last Colonoscopy</dt>
+            <dd>{{ obj.last_colonoscopy|default:"-" }}</dd>
+        </div>
     </dl>
 
 {% endblock%}

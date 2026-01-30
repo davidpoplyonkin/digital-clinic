@@ -23,13 +23,13 @@
                 <dt>State Other</dt>
                 <dd>{{ obj.get_state_other_display }}</dd>
             </div>
-            <div class="no-break-item">
+            <div>
                 <dt>Conclusion</dt>
-                <dd>{{ obj.conclusion }}</dd>
+                <dd>{{ obj.conclusion|linebreaks }}</dd>
             </div>
-            <div class="no-break-item">
+            <div>
                 <dt>Recommendations</dt>
-                <dd>{{ obj.recommendations }}</dd>
+                <dd>{{ obj.recommendations|linebreaks }}</dd>
             </div>
         </dl>
     </div>

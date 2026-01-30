@@ -26,20 +26,10 @@ def patient_list_view(request):
 def patient_detail_view(request, pk):
 
     obj = get_object_or_404(Patient, pk = pk)
-
-    obj_fields = []
-    
-    for field in obj._meta.fields:
-        if field.name not in {"id", "full_name"}:
-            obj_fields.append({
-                "name": field.verbose_name.capitalize(),
-                "value": getattr(obj, field.name)
-            })      
     
     context = {
         "app": "patients",
         "obj": obj,
-        "obj_fields": obj_fields,
         "buttons": {
             "back": "patients:patient-list",
             "edit": "patients:patient-update",
