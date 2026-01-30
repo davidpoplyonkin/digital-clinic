@@ -21,23 +21,23 @@
             </div>
             <div class="no-break-item">
                 <dt>EED</dt>
-                <dd>{{ obj.eed }}</dd>
+                <dd>{{ obj.eed|default:"-" }}</dd>
             </div>
-            <div class="no-break-item">
+            <div>
                 <dt>Technical Parameters</dt>
-                <dd>{{ obj.technical_parameters }}</dd>
+                <dd>{{ obj.technical_parameters|linebreaks }}</dd>
             </div>
-            <div class="no-break-item">
+            <div>
                 <dt>Description</dt>
-                <dd>{{ obj.description }}</dd>
+                <dd>{{ obj.description|linebreaks }}</dd>
             </div>
-            <div class="no-break-item">
+            <div>
                 <dt>Conclusion</dt>
-                <dd>{{ obj.conclusion }}</dd>
+                <dd>{{ obj.conclusion|linebreaks }}</dd>
             </div>
-            <div class="no-break-item">
+            <div>
                 <dt>Recommendations</dt>
-                <dd>{{ obj.recommendations }}</dd>
+                <dd>{{ obj.recommendations|linebreaks }}</dd>
             </div>
             <div class="no-break-item">
                 <dt>Doctor Name</dt>
