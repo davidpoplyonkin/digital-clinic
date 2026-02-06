@@ -50,7 +50,17 @@ nav_pills = {
                 "link": "x_rays:x-rays-list"
             }
         }
-    }
+    },
+    "Colonoscopy": {
+        "url_main": "colonoscopy:colonoscopy-list",
+        "bootstrap_icon": "bi-bezier2",
+        "apps": {
+            "colonoscopy": {
+                "name": "Colonoscopy",
+                "link": "colonoscopy:colonoscopy-list"
+            }
+        }
+    },
 }
 
 @register.inclusion_tag("core/partials/nav_pills.html")
