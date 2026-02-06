@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "apps.lab.apps.LabConfig",
     "apps.mc_reports.apps.McReportsConfig",
     "apps.x_rays.apps.XRaysConfig",
+    "apps.colonoscopy.apps.ColonoscopyConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "django.contrib.admin",

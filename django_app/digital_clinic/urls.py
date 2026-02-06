@@ -29,4 +29,5 @@ urlpatterns = [
     path("core/", include("apps.core.urls")),
     path("mc-reports/", include("apps.mc_reports.urls")),
     path("x-rays/", include("apps.x_rays.urls")),
+    path("colonoscopy/", include("apps.colonoscopy.urls")),
 ]

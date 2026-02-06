@@ -1,0 +1,23 @@
+{% extends 'digital_clinic/partials/list_search.html' %}
+
+{% block table %}
+    <table class="table table-hover table-colors">
+        <thead>
+            <tr class="sticky-header">
+                <th>Date</th>
+                <th>Name</th>
+                <th>Procedure</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for cr in page_obj %}
+                <tr class="clickable-row" data-href="{% url 'colonoscopy:colonoscopy-detail' cr.pk %}">
+                    <td>{{ cr.date }}</td>
+                    <td>{{ cr.patient.full_name }}</td>
+                    <td>{{ cr.procedure }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
