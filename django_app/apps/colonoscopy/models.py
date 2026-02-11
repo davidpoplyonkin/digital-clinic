@@ -95,7 +95,7 @@ class ColonoscopyReport(models.Model):
 
     next_colonoscopy = models.CharField(
         choices=[
-            ("4y", "NBCSP через 4 роки"),
+            ("4y", "NBCSP in 4 years"),
             ("2y", "Lynch syndrome - repeat colonoscopy after 2 years"),
             ("0y", "Once confirmed, pathology will schedule the next colonoscopy."),
         ]
@@ -122,5 +122,5 @@ class PhotoProtocolImage(models.Model):
         return Path("colonoscopy_photoprotocol") / str(instance.colonoscopy.pk) / new_filename
     
     colonoscopy = models.ForeignKey(ColonoscopyReport, on_delete=models.CASCADE)
-    image = models.ImageField()
+    image = models.ImageField(upload_to=get_upload_path)
     caption = models.CharField(max_length=200)

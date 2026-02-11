@@ -1,0 +1,213 @@
+{% extends "digital_clinic/detail_view.html" %}
+
+{% block details %}
+
+    <div class="row mt-2">
+        <div class="col-auto flex-column">
+            <div class="list-group sticky-top" style="top: 5rem">
+                <a class="list-group-item list-group-item-action" href="#section-patient">Patient</a>
+                <a class="list-group-item list-group-item-action" href="#section-organisation">Organisation</a>
+                <a class="list-group-item list-group-item-action" href="#section-doctor">Doctor</a>
+                <a class="list-group-item list-group-item-action" href="#section-evidence">Evidence</a>
+                <a class="list-group-item list-group-item-action" href="#section-sedation">Sedation</a>
+                <a class="list-group-item list-group-item-action" href="#section-results">Results</a>
+                <a class="list-group-item list-group-item-action" href="#section-interventions">Inverventions</a>
+                <a class="list-group-item list-group-item-action" href="#section-ae">Adversary Events</a>
+                <a class="list-group-item list-group-item-action" href="#section-conclusion">Conclusion</a>
+                <a class="list-group-item list-group-item-action" href="#section-recommendations">Recommendations</a>
+            </div>
+        </div>
+        <div class="col">
+            <h3 id="section-patient" style="scroll-margin-top: 5rem">Patient</h4>
+            <dl>
+                <dd>{{ obj.patient }}</dd>
+            </dl>
+
+            <h3 id="section-organisation" style="scroll-margin-top: 5rem">Organisation</h4>
+            <dl class="newspaper-layout">
+                <div class="no-break-item">
+                    <dt>Organisation</dt>
+                    <dd>{{ obj.organisation }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Colonoscopist</dt>
+                    <dd>{{ obj.colonoscopist }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Phone</dt>
+                    <dd>{{ obj.colonoscopist_phone }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Procedure</dt>
+                    <dd>{{ obj.procedure }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Date</dt>
+                    <dd>{{ obj.date }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Time</dt>
+                    <dd>{{ obj.time }}</dd>
+                </div>
+            </dl>
+
+            <h3 id="section-doctor" style="scroll-margin-top: 5rem">Doctor</h3>
+            <dl class="newspaper-layout">
+                <div class="no-break-item">
+                    <dt>Doctor</dt>
+                    <dd>{{ obj.doctor }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Phone</dt>
+                    <dd>{{ obj.doctor_phone }}</dd>
+                </div>
+            </dl>
+
+            <h3 id="section-evidence" style="scroll-margin-top: 5rem">Evidence</h3>
+            <dl>
+                <div class="no-break-item">
+                    <dt>Diagnosis</dt>
+                    <dd>{{ obj.diagnosis|linebreaks }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Evidence</dt>
+                    <dd>{{ obj.evidence|linebreaks }}</dd>
+                </div>
+            </dl>
+
+            <h3 id="section-sedation" style="scroll-margin-top: 5rem">Sedation</h3>
+            <dl class="newspaper-layout">
+                <div class="no-break-item">
+                    <dt>ASA classification</dt>
+                    <dd>{{ obj.get_asa_classification_display }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Sedation</dt>
+                    <dd>{{ obj.get_sedation_display }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Anesthetist</dt>
+                    <dd>{{ obj.anesthetist }}</dd>
+                </div>
+            </dl>
+
+            <h3 id="section-results" style="scroll-margin-top: 5rem">Results</h3>
+            <dl class="newspaper-layout">
+                <div class="no-break-item">
+                    <dt>Bowel preparation</dt>
+                    <dd>{{ obj.get_bowel_prep_display }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>BBPS</dt>
+                    <dd>{{ obj.bbps|default:"-" }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Insertion level</dt>
+                    <dd>{{ obj.get_insertion_level_display }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Visualization</dt>
+                    <dd>{{ obj.get_visualization_display }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Biopsy referral</dt>
+                    <dd>{{ obj.biopsy_referral }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Withdrawal time</dt>
+                    <dd>{{ obj.withdrawal_time|default:"-" }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Photo protocol</dt>
+                    <dd>
+                        <div id="photoProtocolCarousel" class="carousel slide carousel-fade" data-bs-theme="light">
+                            <div class="carousel-indicators">
+                                {% for i in obj.photoprotocolimage_set.all %}
+                                    <button type="button" data-bs-target="#photoProtocolCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter0 == 0 %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                                {% endfor %}
+                            </div>
+                            <div class="carousel-inner">
+                                {% for i in obj.photoprotocolimage_set.all %}
+                                    <div class="carousel-item {% if forloop.counter0 == 0 %} active{% endif %}">
+                                        <div class="vignette d-block w-100">
+                                            <img src="{{ i.image.url }}" class="d-block w-100" alt="Slide {{ forloop.counter }}">
+                                        </div>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>{{ i.caption }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#photoProtocolCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#photoProtocolCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </dd>
+                </div>
+            </dl>
+
+            <h3 id="section-interventions" style="scroll-margin-top: 5rem">Interventions</h3>
+            <dl>
+                <div>
+                    <dt>Finger examination</dt>
+                    <dd>{{ obj.finger_examination|linebreaks }}</dd>
+                </div>
+                <div>
+                    <dt>Ileum</dt>
+                    <dd>{{ obj.ileum|linebreaks }}</dd>
+                </div>
+                <div>
+                    <dt>Right colon</dt>
+                    <dd>{{ obj.right_colon|linebreaks }}</dd>
+                </div>
+                <div>
+                    <dt>Colon transversum</dt>
+                    <dd>{{ obj.colon_transversum|linebreaks }}</dd>
+                </div>
+                <div>
+                    <dt>Colon descendens</dt>
+                    <dd>{{ obj.colon_descendens|linebreaks }}</dd>
+                </div>
+                <div>
+                    <dt>Sigmoid</dt>
+                    <dd>{{ obj.sigmoid|linebreaks }}</dd>
+                </div>
+                <div>
+                    <dt>Rectum</dt>
+                    <dd>{{ obj.rectum|linebreaks }}</dd>
+                </div>
+            </dl>
+
+            <h3 id="section-ae" style="scroll-margin-top: 5rem">Adversary Events</h3>
+            <dl>
+                <dd>{{ obj.adversary_events|default:"-"|linebreaks }}</dd>
+            </dl>
+
+            <h3 id="section-conclusion" style="scroll-margin-top: 5rem">Conclusion</h3>
+            <dl>
+                <dd>{{ obj.conclusion|linebreaks }}</dd>
+            </dl>
+
+            <h3 id="section-recommendations" style="scroll-margin-top: 5rem">Recommendations</h3>
+            <dl class="newspaper-layout">
+                <div class="no-break-item">
+                    <dt>Next colonoscopy</dt>
+                    <dd>{{ obj.get_next_colonoscopy_display }}</dd>
+                </div>
+                <div class="no-break-item">
+                    <dt>Follow up with</dt>
+                    <dd>{{ obj.get_follow_up_with_display }}</dd>
+                </div>
+                <div>
+                    <dt>Recommendations</dt>
+                    <dd>{{ obj.recommendations|linebreaks }}</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+{% endblock %}

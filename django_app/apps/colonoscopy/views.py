@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
+
+from .models import ColonoscopyReport
 
 @login_required
 def colonoscopy_list_view(request):
@@ -22,7 +25,24 @@ def colonoscopy_list_view(request):
 
 @login_required
 def colonoscopy_detail_view(request, pk):
-    pass
+    try:
+        obj = (
+            ColonoscopyReport.objects
+            .prefetch_related("patient", "photoprotocolimage_set")
+            .get(pk=pk)
+        )
+    except ColonoscopyReport.DoesNotExist:
+        raise Http404("Colonoscopy report not found")
+    
+    context = {
+        "app": "colonoscopy",
+        "obj": obj,
+        "buttons": {
+            "back": "colonoscopy:colonoscopy-list",
+        }
+    }
+    
+    return render(request, "colonoscopy/colonoscopy_detail.html", context)
 
 @login_required
 def colonoscopy_create_view(request):
