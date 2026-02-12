@@ -152,3 +152,9 @@ LOGIN_REDIRECT_URL = "patients:patient-list"
 # Login url
 
 LOGIN_URL = "login"
+
+# Folder to store user-uploaded media files
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# The URL that handles the media served from MEDIA_ROOT.
+MEDIA_URL = "/media/"

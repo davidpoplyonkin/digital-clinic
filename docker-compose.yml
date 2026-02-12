@@ -16,6 +16,7 @@ services:
         - DB_ENGINE=${DB_ENGINE}
     volumes:
       - dj_static:/usr/src/app/staticfiles
+      - dj_media:/usr/src/app/media
     depends_on:
       - db
     env_file:
@@ -34,8 +35,12 @@ services:
       
       # Django Static
       - dj_static:/usr/share/nginx/static/:ro
+
+      # Django Media
+      - dj_media:/usr/share/nginx/media/:ro
     depends_on:
       - dj
 volumes:
   db_data:
   dj_static:
+  dj_media:
