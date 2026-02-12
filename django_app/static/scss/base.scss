@@ -1,0 +1,114 @@
+@import "bootstrap/scss/functions";
+
+
+$body-color-dark: #abb4bc;
+
+$carousel-control-color: $body-color-dark !important;
+$carousel-indicator-active-bg: $body-color-dark !important;
+$carousel-caption-color: $body-color-dark !important;
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+@import "bootstrap/scss/bootstrap";
+
+:root {
+  --color-header: #6fcec4;
+  --color-text-muted: #899097;
+  --color-bg: #1b1f21;
+  --color-bg-secondary: #202528;
+  --color-border: #444950;
+  --color-error: #eb868f;
+}
+
+body {
+  padding-top: 5rem;
+}
+
+nav {
+  background: var(--color-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-header);
+}
+
+ul {
+  margin: 0;
+}
+
+.content-section {
+  background: var(--color-bg);
+  padding: 1rem 1rem 1rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.newspaper-layout {
+  column-count: 2;
+}
+
+.no-break-item {
+  break-inside: avoid;
+}
+
+.sticky-header{
+  position: sticky;
+  top: 0;
+}
+
+.table-colors {
+  --bs-table-color: $body-color-dark;
+  --bs-table-bg: var(--color-bg);
+  --bs-table-border-color: var(--color-border);
+  --bs-table-hover-bg: var(--color-bg-secondary);
+}
+
+dd {
+    padding-left: 1rem;
+}
+
+.nav .nav-link{
+  color: var(--color-text-muted);
+}
+
+.container .nav .active {
+  color: $body-color-dark;
+  background-color: var(--color-bg);
+}
+
+.nav-pills .active {
+  color: $body-color-dark !important;
+  background-color: var(--color-bg) !important;
+  border: 1px solid var(--color-border);
+}
+
+.vignette {
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+.vignette > img {
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    border:1px solid var(--color-bg);
+}
+.vignette:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center,
+      transparent 0%, var(--color-bg) 60%);
+    border-radius: 50%;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+
