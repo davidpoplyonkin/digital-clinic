@@ -54,15 +54,30 @@ class ResultsForm(forms.ModelForm):
 
 
 class PhotoProtocolImageForm(forms.ModelForm):
+    def has_changed(self):
+        # By default, Django ignores the extra forms not changed by the user.
+        # Overriding this behavior to ensure that copying works correctly.
+        return True
+
     class Meta:
         model = PhotoProtocolImage
         fields = "__all__"
+
+
+class PhotoProtocolFormSetTemplate(forms.BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        initial = kwargs.get("initial", [])
+        super().__init__(*args, **kwargs)
+
+        # When a report is copied, image copies will be provided as pre-filled extras to the formset
+        self.extra = len(initial)
 
 
 PhotoProtocolFormSet = forms.inlineformset_factory(
     ColonoscopyReport,
     PhotoProtocolImage,
     form=PhotoProtocolImageForm,
+    formset=PhotoProtocolFormSetTemplate,
     can_delete=True,
     extra=0,
 )

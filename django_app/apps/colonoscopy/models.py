@@ -115,7 +115,6 @@ class PhotoProtocolImage(models.Model):
 
         return (
             Path("colonoscopy_photoprotocol")
-            / str(instance.colonoscopy.pk)
             / new_filename
         )
 
