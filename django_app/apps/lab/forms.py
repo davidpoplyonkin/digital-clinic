@@ -4,14 +4,16 @@ from ..patients.models import Patient
 from .models import Lab, TestResult
 from ..core.forms.fields import AutocompleteField
 
+
 class LabWizardLabForm(forms.ModelForm):
     patient = AutocompleteField(Patient, "full_name", "patient")
-    date = forms.DateField(widget = forms.DateInput(attrs = {"type": "date"}))
+    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     place = forms.CharField()
 
     class Meta:
         model = Lab
         fields = ["patient", "date", "place"]
+
 
 class LabWizardResForm(forms.ModelForm):
     # NOTE: On the one hand, combining panel and test results in one step
@@ -26,10 +28,12 @@ class LabWizardResForm(forms.ModelForm):
         model = Lab
         fields = ["panel"]
 
+
 class LabWizardResFormSetForm(forms.ModelForm):
     class Meta:
         model = TestResult
         fields = ["value", "cs", "test", "order"]
+
 
 LabWizardResFormSet = forms.inlineformset_factory(
     Lab,
@@ -39,15 +43,17 @@ LabWizardResFormSet = forms.inlineformset_factory(
     extra=0,
 )
 
+
 class LabWizardResStep(forms.Form):
     """
     A dummy class to represent the combined LabForm and LabTestResFormSet
     step in the form wizard.
     """
 
-    def __init__(self, form: forms.ModelForm, formset: forms.BaseInlineFormSet,
-                 *args, **kwargs):
-        
+    def __init__(
+        self, form: forms.ModelForm, formset: forms.BaseInlineFormSet, *args, **kwargs
+    ):
+
         super().__init__(*args, **kwargs)
         self.form = form
         self.formset = formset
@@ -60,7 +66,7 @@ class LabWizardResStep(forms.Form):
             self.formset.instance = lab
             if self.formset.is_valid():
                 return True
-            
+
         return False
 
     def save(self):

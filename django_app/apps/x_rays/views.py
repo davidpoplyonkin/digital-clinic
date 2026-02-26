@@ -12,6 +12,7 @@ try:
 except ModuleNotFoundError:
     from ..core.utils.example_pdf_generator import generate_pdf
 
+
 @login_required
 def x_rays_list_view(request):
 
@@ -22,21 +23,23 @@ def x_rays_list_view(request):
             {
                 "id": "search__patient__full_name",
                 "placeholder": "Patient",
-            }, {
+            },
+            {
                 "id": "search__examination",
                 "placeholder": "Examination",
-            }
+            },
         ],
         "url_create": "x_rays:x-rays-create",
     }
 
     return render(request, "digital_clinic/list_view.html", context)
 
+
 @login_required
 def x_rays_detail_view(request, pk):
 
-    obj = get_object_or_404(XRaysExamination, pk = pk)   
-    
+    obj = get_object_or_404(XRaysExamination, pk=pk)
+
     context = {
         "app": "x_rays",
         "obj": obj,
@@ -46,9 +49,9 @@ def x_rays_detail_view(request, pk):
             "cp": "x_rays:x-rays-copy",
             "print": "x_rays:x-rays-print",
             "delete": "x_rays:x-rays-delete",
-        }
+        },
     }
-    
+
     return render(request, "x_rays/x_rays_detail.html", context)
 
 
@@ -56,12 +59,13 @@ class XRaysCreateView(LoginRequiredMixin, CreateView):
     model = XRaysExamination
     form_class = XRaysForm
     template_name = "x_rays/x_rays_form.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["app"] = "x_rays"
 
         return context
+
 
 class XRaysUpdateView(LoginRequiredMixin, UpdateView):
     model = XRaysExamination
@@ -74,6 +78,7 @@ class XRaysUpdateView(LoginRequiredMixin, UpdateView):
 
         return context
 
+
 @login_required
 def x_rays_delete_view(request, pk):
 
@@ -82,7 +87,7 @@ def x_rays_delete_view(request, pk):
     if request.method == "POST":
         obj.delete()
         return redirect("x_rays:x-rays-list")
-    
+
     context = {
         "app": "x_rays",
         "title": "X-Rays Examination",
@@ -91,6 +96,7 @@ def x_rays_delete_view(request, pk):
     }
 
     return render(request, "digital_clinic/delete_view.html", context)
+
 
 @login_required
 def x_rays_copy(request, pk):
@@ -104,21 +110,15 @@ def x_rays_copy(request, pk):
 
     form = XRaysForm(fields)
 
-    context = {
-        "app": "x_rays",
-        "form": form
-    }
+    context = {"app": "x_rays", "form": form}
 
     return render(request, "x_rays/x_rays_form.html", context)
+
 
 @login_required
 def x_rays_print(request, pk):
     try:
-        obj = (
-            XRaysExamination.objects
-            .prefetch_related("patient")
-            .get(pk=pk)
-        )
+        obj = XRaysExamination.objects.prefetch_related("patient").get(pk=pk)
     except XRaysExamination.DoesNotExist:
         raise Http404("MC Report object not found")
 

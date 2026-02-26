@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.apps import apps
 
+
 @login_required
 def autocomplete_update(request, field):
     """
@@ -12,7 +13,7 @@ def autocomplete_update(request, field):
     context = {
         "field": field,
         "ac_text": request.POST.get(field),
-        "ac_counter": 0, # reset the counter
+        "ac_counter": 0,  # reset the counter
         "ac_search_field": request.POST.get(f"{field}_ac_search_field"),
         "label": request.POST.get(f"{field}_label"),
         "app": request.POST.get(f"{field}_app"),
@@ -21,6 +22,7 @@ def autocomplete_update(request, field):
     }
 
     return render(request, "core/partials/autocomplete.html", context)
+
 
 @login_required
 def autocomplete_navigate(request, field, direction):
@@ -38,8 +40,7 @@ def autocomplete_navigate(request, field, direction):
         ac_query = request.POST.get(field)
 
     model = apps.get_model(
-        request.POST.get(f"{field}_app"),
-        request.POST.get(f"{field}_model")
+        request.POST.get(f"{field}_app"), request.POST.get(f"{field}_model")
     )
 
     ac_search_field = request.POST.get(f"{field}_ac_search_field")
@@ -52,7 +53,7 @@ def autocomplete_navigate(request, field, direction):
     obj = model.objects.filter(**ac_query_kwargs)
 
     # Take the names of these objects
-    options = obj.values_list(ac_search_field, flat = True)
+    options = obj.values_list(ac_search_field, flat=True)
 
     # Prepend the query to the list.
     options = [ac_query] + list(options)
@@ -76,13 +77,14 @@ def autocomplete_navigate(request, field, direction):
         "model": request.POST.get(f"{field}_model"),
         "on_load_post": request.POST.get(f"{field}_on_load_post"),
     }
-    
+
     # NOTE: If the new piece of text is longer than the previous one,
     # the cursor might end up in the middle of it. However, this is ok
     # given that the user is not supposed to type anything after they
     # find the correct name.
 
     return render(request, "core/partials/autocomplete.html", context)
+
 
 # HTMX
 @login_required
@@ -97,7 +99,9 @@ def list_search(request):
     page = request.POST.get("page")
 
     search_kwargs = {
-        (k.split("__", 1)[1] + "__icontains"): v # "search__field" -> "field__icontains"
+        (
+            k.split("__", 1)[1] + "__icontains"
+        ): v  # "search__field" -> "field__icontains"
         for k, v in request.POST.items()
         if k.startswith("search__")
     }
@@ -108,7 +112,7 @@ def list_search(request):
         results = None
 
     if results:
-        paginator = Paginator(results, per_page = 10)
+        paginator = Paginator(results, per_page=10)
         page_obj = paginator.get_page(page)
     else:
         page_obj = None
@@ -118,5 +122,5 @@ def list_search(request):
         "model": model,
         "page_obj": page_obj,
     }
-    
+
     return render(request, f"{app}/list_table.html", context)

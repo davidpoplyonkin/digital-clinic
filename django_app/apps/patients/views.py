@@ -6,27 +6,24 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Patient
 from .forms import PatientForm
 
+
 @login_required
-def patient_list_view(request):    
+def patient_list_view(request):
     context = {
         "app": "patients",
         "model": "Patient",
-        "search_fields": [
-            {
-                "id": "search__full_name",
-                "placeholder": "Patient"
-            }
-        ],
+        "search_fields": [{"id": "search__full_name", "placeholder": "Patient"}],
         "url_create": "patients:patient-create",
     }
 
     return render(request, "digital_clinic/list_view.html", context)
 
+
 @login_required
 def patient_detail_view(request, pk):
 
-    obj = get_object_or_404(Patient, pk = pk)
-    
+    obj = get_object_or_404(Patient, pk=pk)
+
     context = {
         "app": "patients",
         "obj": obj,
@@ -34,20 +31,22 @@ def patient_detail_view(request, pk):
             "back": "patients:patient-list",
             "edit": "patients:patient-update",
             "delete": "patients:patient-delete",
-        }
+        },
     }
-    
+
     return render(request, "patients/patient_detail.html", context)
+
 
 class PatientCreateView(LoginRequiredMixin, CreateView):
     model = Patient
     form_class = PatientForm
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["app"] = "patients"
 
         return context
+
 
 class PatientUpdateView(LoginRequiredMixin, UpdateView):
     model = Patient
@@ -59,15 +58,16 @@ class PatientUpdateView(LoginRequiredMixin, UpdateView):
 
         return context
 
+
 @login_required
 def patient_delete_view(request, pk):
 
-    obj = get_object_or_404(Patient, pk = pk)
+    obj = get_object_or_404(Patient, pk=pk)
 
     if request.method == "POST":
         obj.delete()
         return redirect("patients:patient-list")
-    
+
     context = {
         "app": "patients",
         "title": "Patient",
