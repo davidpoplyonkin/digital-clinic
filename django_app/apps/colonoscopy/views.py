@@ -58,6 +58,7 @@ def colonoscopy_detail_view(request, pk):
             "back": "colonoscopy:colonoscopy-list",
             "edit": "colonoscopy:colonoscopy-update",
             "cp": "colonoscopy:colonoscopy-copy",
+            "delete": "colonoscopy:colonoscopy-delete",
         },
     }
 
@@ -198,6 +199,25 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         return redirect(
             reverse("colonoscopy:colonoscopy-detail", kwargs={"pk": colonoscopy.pk})
         )
+    
+
+@login_required
+def colonoscopy_delete_view(request, pk):
+
+    obj = get_object_or_404(ColonoscopyReport, pk=pk)
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("colonoscopy:colonoscopy-list")
+
+    context = {
+        "app": "colonoscopy",
+        "title": "Colonoscopy Report",
+        "obj": obj,
+        "url_detail": "colonoscopy:colonoscopy-detail",
+    }
+
+    return render(request, "digital_clinic/delete_view.html", context)
 
 
 @login_required
