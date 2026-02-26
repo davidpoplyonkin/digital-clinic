@@ -13,6 +13,7 @@ urlpatterns = [
         views.ColonoscopyWizardView.as_view(),
         name="colonoscopy-update",
     ),
+    path("<int:pk>/copy/", views.ColonoscopyWizardView.as_view(copy=True), name="colonoscopy-copy"),
     # HTMX
     path("htmx/image/new/", views.image_append, name="image-append"),
 ]

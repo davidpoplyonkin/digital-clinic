@@ -57,6 +57,7 @@ def colonoscopy_detail_view(request, pk):
         "buttons": {
             "back": "colonoscopy:colonoscopy-list",
             "edit": "colonoscopy:colonoscopy-update",
+            "cp": "colonoscopy:colonoscopy-copy",
         },
     }
 
@@ -86,25 +87,59 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         "recommendations": "colonoscopy/colonoscopy_wizard_recommendations_form.html",
     }
 
+    copy = (
+        False  # whether this view is being used to copy an existing colonoscopy report
+    )
+
     file_storage = FileSystemStorage(
-        location=os.path.join(settings.MEDIA_ROOT, "colonoscopy_photoprotocol", "0")
+        location=os.path.join(settings.MEDIA_ROOT, "colonoscopy_photoprotocol")
     )
 
     def get_template_names(self):
         return [ColonoscopyWizardView.templates[self.steps.current]]
 
     def dispatch(self, request, *args, **kwargs):
-        # Get the Lab instance.
+        # Get the Colonoscopy instance.
         pk = self.kwargs.get("pk")
         if pk:
             self.colonoscopy = get_object_or_404(ColonoscopyReport, pk=pk)
+            if self.copy:
+                # Get the list of dictionaries of image fields to be copied
+                self.photoprotocol = [
+                    {
+                        label: (
+                            # Create new references to images and detach them
+                            # from the colonoscopy being copied
+                            None
+                            if label in ["id", "colonoscopy"]
+                            else getattr(img, label)
+                        )
+                        for field in img._meta.get_fields()
+                        if (label := field.name)
+                    }
+                    for img in self.colonoscopy.photoprotocolimage_set.all()
+                ]
+                self.colonoscopy.pk = None
         else:
             self.colonoscopy = None
 
         return super().dispatch(request, *args, **kwargs)
 
     def get_form_instance(self, step):
+        if step == "photoprotocol" and self.copy:
+            # Make sure that image references are detached from the colonoscopy
+            # being copied
+            return None
+
         return self.colonoscopy
+
+    def get_form_initial(self, step):
+        if step == "photoprotocol" and self.copy:
+            # Return the copies of the original image references as pre-filled
+            # extras
+            return self.photoprotocol
+
+        return super().get_form_initial(step)
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
@@ -144,11 +179,20 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         for field, value in form.cleaned_data.items():
             setattr(colonoscopy, field, value)
 
+        # If copying, create a new object
+        if self.copy:
+            colonoscopy.pk = None
+
         colonoscopy.save()
 
         # Save the photo protocol images
         formset = form_dict.get("photoprotocol")
         formset.instance = colonoscopy
+
+        # If copying, create new objects for the formset
+        if self.copy:
+            for form in formset:
+                form.instance.pk = None
         formset.save()
 
         return redirect(
@@ -156,6 +200,7 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         )
 
 
+@login_required
 def image_append(request):
     if request.method == "POST" and request.headers.get("HX-Request"):
         formset = PhotoProtocolFormSet(prefix="photoprotocol")
