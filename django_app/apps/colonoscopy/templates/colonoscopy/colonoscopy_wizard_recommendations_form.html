@@ -1,0 +1,11 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Recommendations</h1>
+
+    {{ form.next_colonoscopy|as_crispy_field }}
+    {{ form.follow_up_with|as_crispy_field }}
+    {{ form.recommendations|as_crispy_field }}
+
+{% endblock %}

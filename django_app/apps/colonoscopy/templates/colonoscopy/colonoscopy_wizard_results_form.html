@@ -1,0 +1,14 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Results</h1>
+
+    {{ form.bowel_prep|as_crispy_field }}
+    {{ form.bbps|as_crispy_field }}
+    {{ form.insertion_level|as_crispy_field }}
+    {{ form.visualization|as_crispy_field }}
+    {{ form.biopsy_referral|as_crispy_field }}
+    {{ form.withdrawal_time|as_crispy_field }}
+    
+{% endblock %}

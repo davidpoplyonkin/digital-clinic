@@ -6,7 +6,7 @@
         <div class="col-auto flex-column">
             <div class="list-group sticky-top" style="top: 5rem">
                 <a class="list-group-item list-group-item-action" href="#section-patient">Patient</a>
-                <a class="list-group-item list-group-item-action" href="#section-organisation">Organisation</a>
+                <a class="list-group-item list-group-item-action" href="#section-organization">Organization</a>
                 <a class="list-group-item list-group-item-action" href="#section-doctor">Doctor</a>
                 <a class="list-group-item list-group-item-action" href="#section-evidence">Evidence</a>
                 <a class="list-group-item list-group-item-action" href="#section-sedation">Sedation</a>
@@ -23,11 +23,11 @@
                 <dd>{{ obj.patient }}</dd>
             </dl>
 
-            <h3 id="section-organisation" style="scroll-margin-top: 5rem">Organisation</h4>
+            <h3 id="section-organization" style="scroll-margin-top: 5rem">Organization</h4>
             <dl class="newspaper-layout">
                 <div class="no-break-item">
-                    <dt>Organisation</dt>
-                    <dd>{{ obj.organisation }}</dd>
+                    <dt>Organization</dt>
+                    <dd>{{ obj.organization }}</dd>
                 </div>
                 <div class="no-break-item">
                     <dt>Colonoscopist</dt>
@@ -183,9 +183,9 @@
                 </div>
             </dl>
 
-            <h3 id="section-ae" style="scroll-margin-top: 5rem">Adversary Events</h3>
+            <h3 id="section-ae" style="scroll-margin-top: 5rem">Adverse Events</h3>
             <dl>
-                <dd>{{ obj.adversary_events|default:"-"|linebreaks }}</dd>
+                <dd>{{ obj.adverse_events|default:"-"|linebreaks }}</dd>
             </dl>
 
             <h3 id="section-conclusion" style="scroll-margin-top: 5rem">Conclusion</h3>

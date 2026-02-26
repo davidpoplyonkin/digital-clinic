@@ -120,6 +120,8 @@ class LabWizardView(LoginRequiredMixin, SessionWizardView):
         context = super().get_context_data(form=form, **kwargs)
 
         context["app"] = "lab"
+        context["url_list"] = "lab:lab-list"
+        context["url_detail"] = "lab:lab-detail"
         
         if self.steps.current == "res":
             # Prepare context for the template.

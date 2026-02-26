@@ -1,0 +1,16 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Evidence</h1>
+
+    {{ form.diagnosis|as_crispy_field }}
+    {{ form.evidence|as_crispy_field }}
+
+    <h3>Sedation</h3>
+
+    {{ form.sedation|as_crispy_field }}
+    {{ form.asa_classification|as_crispy_field }}
+    {% include 'core/partials/autocomplete.html' with field='evidence-anesthetist' ac_text=form.anesthetist.value|default_if_none:'' ac_counter=0 ac_search_field='anesthetist' label='Anesthetist' app='colonoscopy' model='ColonoscopyReport' errors=form.anesthetist.errors %}
+    
+{% endblock %}

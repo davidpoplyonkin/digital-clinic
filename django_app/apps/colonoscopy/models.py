@@ -8,12 +8,12 @@ from ..patients.models import Patient
 class ColonoscopyReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
-    organisation = models.CharField(max_length=100)
+    organization = models.CharField(max_length=100)
     colonoscopist = models.CharField(max_length=50)
     colonoscopist_phone = models.CharField(max_length=50)
     procedure = models.CharField(max_length=50)
     date = models.DateField()
-    time = models.TimeField(blank=True)
+    time = models.TimeField(blank=True, null=True)
 
     doctor = models.CharField(max_length=50)
     doctor_phone = models.CharField(max_length=50)
@@ -90,7 +90,7 @@ class ColonoscopyReport(models.Model):
     sigmoid = models.TextField()
     rectum = models.TextField()
 
-    adversary_events = models.TextField(blank=True)
+    adverse_events = models.TextField(blank=True)
     conclusion = models.TextField()
 
     next_colonoscopy = models.CharField(

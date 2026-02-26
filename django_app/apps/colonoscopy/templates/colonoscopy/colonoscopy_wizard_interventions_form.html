@@ -1,0 +1,14 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Interventions</h1>
+    
+    {{ form.finger_examination|as_crispy_field }}
+    {{ form.ileum|as_crispy_field }}
+    {{ form.right_colon|as_crispy_field }}
+    {{ form.colon_transversum|as_crispy_field }}
+    {{ form.colon_descendens|as_crispy_field }}
+    {{ form.sigmoid|as_crispy_field }}
+    {{ form.rectum|as_crispy_field }}
+{% endblock %}

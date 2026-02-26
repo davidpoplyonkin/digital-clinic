@@ -1,0 +1,95 @@
+<input
+    id="id_photoprotocol-{{ form_id }}-colonoscopy"
+    type="hidden"
+    name="photoprotocol-{{ form_id }}-colonoscopy"
+    {% if formset.instance %}value="{{ formset.instance.pk }}"{% endif %}>
+
+<div id="div_id_photoprotocol-{{ form_id }}-image" class="mb-3">
+    <label class="form-label requiredField" for="id_photoprotocol-{{ form_id }}-image">
+        Image<span class="asteriskField">*</span>
+    </label>
+
+    {% if form.image.value %}
+        <div class="input-group mb-2">
+            <span class="input-group-text">
+                Currently
+            </span>
+            <div class="form-control d-flex h-auto">
+                <span class="text-break flex-grow-1">
+                    <a href="{{ form.image.value.url }}">
+                        {{ form.image.value }}
+                    </a>
+                </span>
+            </div>
+        </div>
+    {% endif %}
+
+    <div>
+        <input
+            id="id_photoprotocol-{{ form_id }}-image"
+            class="form-control{% if form.image.errors %} is-invalid{% endif %}"
+            type="file"
+            name="photoprotocol-{{ form_id }}-image"
+            accept="image/*"
+            {% if form.image.errors %}
+                aria-invalid="true"
+                aria-describedby="id_photoprotocol-{{ form_id }}-image_error"
+            {% endif %}>
+            {% if form.image.errors %}
+                <div id="id_photoprotocol-{{ form_id }}-image_error" class="invalid-feedback">
+                    {% for e in form.image.errors %}
+                        <p id="error_{{ forloop.counter }}_id_photoprotocol-{{ form_id }}-image">
+                            <strong>{{ e }}</strong>
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+    </div>
+</div>
+
+<div id="div_id_photoprotocol-{{ form_id }}-caption" class="mb-3">
+    <label class="form-label requiredField" for="id_photoprotocol-{{ form_id }}-caption">
+        Caption<span class="asteriskField">*</span>
+    </label>
+    <input
+        id="id_photoprotocol-{{ form_id }}-caption"
+        class="textinput form-control{% if form.caption.errors %} is-invalid{% endif %}"
+        type="text"
+        name="photoprotocol-{{ form_id }}-caption"
+        {% if form.caption.value %}value="{{ form.caption.value }}"{% endif %}
+        maxlength="200"
+        {% if form.caption.errors %}
+            aria-invalid="true"
+            aria-describedby="id_photoprotocol-{{ form_id }}-caption_error"
+        {% endif %}>
+        {% if form.caption.errors %}
+            <div id="id_photoprotocol-{{ form_id }}-caption_error" class="invalid-feedback">
+                {% for e in form.caption.errors %}
+                    <p id="error_{{ forloop.counter }}_id_photoprotocol-{{ form_id }}-caption">
+                        <strong>{{ e }}</strong>
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+</div>
+
+<input
+    id="id_photoprotocol-{{ form_id }}-id"
+    type="hidden"
+    name="photoprotocol-{{ form_id }}-id"
+    {% if form.instance.pk %}value="{{ form.instance.pk }}"{% endif %}>
+
+<div class="mb-3">
+    <div id="div_id_photoprotocol-{{ form_id }}-DELETE" class="form-check">
+        <input
+            id="id_photoprotocol-{{ form_id }}-DELETE"
+            class="checkboxinput form-check-input"
+            type="checkbox"
+            name="photoprotocol-{{ form_id }}-DELETE">
+        <label class="form-check-label" for="id_photoprotocol-{{ form_id }}-DELETE">
+            Delete
+        </label>
+    </div>
+</div>
+
+<hr>

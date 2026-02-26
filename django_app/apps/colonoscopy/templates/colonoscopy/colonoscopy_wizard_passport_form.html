@@ -1,0 +1,21 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Passport</h1>
+    
+    {% include 'core/partials/autocomplete.html' with field='passport-patient' ac_text=form.patient.value|default_if_none:'' ac_counter=0 ac_search_field='full_name' label='Patient' app='patients' model='Patient' errors=form.patient.errors %}
+
+    <h3>Organization</h3>
+    {% include 'core/partials/autocomplete.html' with field='passport-organization' ac_text=form.organization.value|default_if_none:'' ac_counter=0 ac_search_field='organization' label='Organization' app='colonoscopy' model='ColonoscopyReport' errors=form.organization.errors %}
+    {% include 'core/partials/autocomplete.html' with field='passport-colonoscopist' ac_text=form.colonoscopist.value|default_if_none:'' ac_counter=0 ac_search_field='colonoscopist' label='Colonoscopist' app='colonoscopy' model='ColonoscopyReport' errors=form.colonoscopist.errors %}
+    {% include 'core/partials/autocomplete.html' with field='passport-colonoscopist_phone' ac_text=form.colonoscopist_phone.value|default_if_none:'' ac_counter=0 ac_search_field='colonoscopist_phone' label='Colonoscopist phone' app='colonoscopy' model='ColonoscopyReport' errors=form.colonoscopist_phone.errors %}
+    {% include 'core/partials/autocomplete.html' with field='passport-procedure' ac_text=form.procedure.value|default_if_none:'' ac_counter=0 ac_search_field='procedure' label='Procedure' app='colonoscopy' model='ColonoscopyReport' errors=form.procedure.errors %}
+    {{ form.date|as_crispy_field }}
+    {{ form.time|as_crispy_field }}
+
+    <h3>Doctor</h3>
+    {% include 'core/partials/autocomplete.html' with field='passport-doctor' ac_text=form.doctor.value|default_if_none:'' ac_counter=0 ac_search_field='doctor' label='Doctor' app='colonoscopy' model='ColonoscopyReport' errors=form.doctor.errors %}
+    {% include 'core/partials/autocomplete.html' with field='passport-doctor_phone' ac_text=form.doctor_phone.value|default_if_none:'' ac_counter=0 ac_search_field='doctor_phone' label='Doctor phone' app='colonoscopy' model='ColonoscopyReport' errors=form.doctor_phone.errors %}
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Conclusion</h1>
+
+    {{ form.conclusion|as_crispy_field }}
+
+{% endblock %}
