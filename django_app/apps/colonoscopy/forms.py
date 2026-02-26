@@ -9,7 +9,8 @@ class PassportForm(forms.ModelForm):
     patient = AutocompleteField(Patient, "full_name", "patient")
     date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     time = forms.TimeField(
-        widget=forms.TimeInput(attrs={"type": "time"}), required=False,
+        widget=forms.TimeInput(attrs={"type": "time"}),
+        required=False,
     )
 
     class Meta:
@@ -26,6 +27,7 @@ class PassportForm(forms.ModelForm):
             "doctor_phone",
         ]
 
+
 class EvidenceForm(forms.ModelForm):
     class Meta:
         model = ColonoscopyReport
@@ -37,6 +39,7 @@ class EvidenceForm(forms.ModelForm):
             "anesthetist",
         ]
 
+
 class ResultsForm(forms.ModelForm):
     class Meta:
         model = ColonoscopyReport
@@ -46,13 +49,15 @@ class ResultsForm(forms.ModelForm):
             "insertion_level",
             "visualization",
             "biopsy_referral",
-            "withdrawal_time"
+            "withdrawal_time",
         ]
+
 
 class PhotoProtocolImageForm(forms.ModelForm):
     class Meta:
         model = PhotoProtocolImage
         fields = "__all__"
+
 
 PhotoProtocolFormSet = forms.inlineformset_factory(
     ColonoscopyReport,
@@ -61,6 +66,7 @@ PhotoProtocolFormSet = forms.inlineformset_factory(
     can_delete=True,
     extra=0,
 )
+
 
 class InterventionsForm(forms.ModelForm):
     class Meta:
@@ -75,6 +81,7 @@ class InterventionsForm(forms.ModelForm):
             "rectum",
         ]
 
+
 class AdverseEventsForm(forms.ModelForm):
     class Meta:
         model = ColonoscopyReport
@@ -82,12 +89,14 @@ class AdverseEventsForm(forms.ModelForm):
             "adverse_events",
         ]
 
+
 class ConclusionForm(forms.ModelForm):
     class Meta:
         model = ColonoscopyReport
         fields = [
             "conclusion",
         ]
+
 
 class RecommendationsForm(forms.ModelForm):
     class Meta:

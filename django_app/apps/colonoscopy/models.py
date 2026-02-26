@@ -5,6 +5,7 @@ import uuid
 
 from ..patients.models import Patient
 
+
 class ColonoscopyReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
@@ -26,16 +27,16 @@ class ColonoscopyReport(models.Model):
             ("1", "Class I"),
             ("2", "Class II"),
             ("3", "Class III"),
-            ("4", "Class IV")
+            ("4", "Class IV"),
         ],
-        verbose_name = "ASA classification"
+        verbose_name="ASA classification",
     )
     sedation = models.CharField(
-        choices=[ 
+        choices=[
             ("no_sedation", "No sedation"),
             ("conscious_sedation", "Conscious sedation"),
             ("deep_sedation", "Deep sedation"),
-            ("general_anesthesia", "General anesthesia")
+            ("general_anesthesia", "General anesthesia"),
         ]
     )
     anesthetist = models.CharField(max_length=50)
@@ -47,12 +48,10 @@ class ColonoscopyReport(models.Model):
             ("satisfactory", "Satisfactory"),
             ("insufficient", "Insufficient"),
         ],
-        verbose_name="Bowel preparation"
+        verbose_name="Bowel preparation",
     )
     bbps = models.PositiveSmallIntegerField(
-        blank=True,
-        null=True,
-        verbose_name="Boston bowel preparation score"
+        blank=True, null=True, verbose_name="Boston bowel preparation score"
     )
     insertion_level = models.CharField(
         choices=[
@@ -77,10 +76,7 @@ class ColonoscopyReport(models.Model):
         ]
     )
     biopsy_referral = models.PositiveSmallIntegerField()
-    withdrawal_time = models.PositiveSmallIntegerField(
-        blank=True,
-        null=True
-    )
+    withdrawal_time = models.PositiveSmallIntegerField(blank=True, null=True)
 
     finger_examination = models.TextField()
     ileum = models.TextField()
@@ -101,10 +97,7 @@ class ColonoscopyReport(models.Model):
         ]
     )
     follow_up_with = models.CharField(
-        choices=[
-            ("gp", "General practitioner"),
-            ("spec", "Specialist")
-        ]
+        choices=[("gp", "General practitioner"), ("spec", "Specialist")]
     )
     recommendations = models.TextField()
 
@@ -114,13 +107,18 @@ class ColonoscopyReport(models.Model):
     def __str__(self):
         return f"Colonoscopy Report #{self.pk}"
 
+
 class PhotoProtocolImage(models.Model):
     def get_upload_path(instance, filename):
-        extension = Path(filename).suffix # .jpg, .png
+        extension = Path(filename).suffix  # .jpg, .png
         new_filename = f"{uuid.uuid4()}{extension}"
 
-        return Path("colonoscopy_photoprotocol") / str(instance.colonoscopy.pk) / new_filename
-    
+        return (
+            Path("colonoscopy_photoprotocol")
+            / str(instance.colonoscopy.pk)
+            / new_filename
+        )
+
     colonoscopy = models.ForeignKey(ColonoscopyReport, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=get_upload_path)
     caption = models.CharField(max_length=200)

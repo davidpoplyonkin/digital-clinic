@@ -1,6 +1,7 @@
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import (SimpleDocTemplate, Paragraph)
+from reportlab.platypus import SimpleDocTemplate, Paragraph
 from io import BytesIO
+
 
 def generate_pdf(obj):
     buffer = BytesIO()

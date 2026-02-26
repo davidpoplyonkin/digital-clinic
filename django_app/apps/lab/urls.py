@@ -11,8 +11,15 @@ urlpatterns = [
     path("<int:pk>/update/", views.LabWizardView.as_view(), name="lab-update"),
     path("<int:pk>/delete/", views.lab_delete_view, name="lab-delete"),
     path("<int:pk>/print/", views.lab_print, name="lab-print"),
-
     # HTMX
-    path("htmx/new/testresult/update", views.LabWizardView.as_view(), name="lab-create-testresult-update"),
-    path("htmx/<int:pk>/testresult/update", views.LabWizardView.as_view(), name="lab-update-testresult-update"),
+    path(
+        "htmx/new/testresult/update",
+        views.LabWizardView.as_view(),
+        name="lab-create-testresult-update",
+    ),
+    path(
+        "htmx/<int:pk>/testresult/update",
+        views.LabWizardView.as_view(),
+        name="lab-update-testresult-update",
+    ),
 ]

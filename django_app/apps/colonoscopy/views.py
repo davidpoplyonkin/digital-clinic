@@ -9,8 +9,17 @@ from django.conf import settings
 import os
 
 from .models import ColonoscopyReport
-from .forms import (PassportForm, EvidenceForm, ResultsForm, PhotoProtocolFormSet,
-                    InterventionsForm, AdverseEventsForm, ConclusionForm, RecommendationsForm)
+from .forms import (
+    PassportForm,
+    EvidenceForm,
+    ResultsForm,
+    PhotoProtocolFormSet,
+    InterventionsForm,
+    AdverseEventsForm,
+    ConclusionForm,
+    RecommendationsForm,
+)
+
 
 @login_required
 def colonoscopy_list_view(request):
@@ -21,37 +30,38 @@ def colonoscopy_list_view(request):
             {
                 "id": "search__patient__full_name",
                 "placeholder": "Patient",
-            }, {
+            },
+            {
                 "id": "search__procedure",
                 "placeholder": "Procedure",
-            }
+            },
         ],
         "url_create": "colonoscopy:colonoscopy-create",
     }
 
     return render(request, "digital_clinic/list_view.html", context)
 
+
 @login_required
 def colonoscopy_detail_view(request, pk):
     try:
-        obj = (
-            ColonoscopyReport.objects
-            .prefetch_related("patient", "photoprotocolimage_set")
-            .get(pk=pk)
-        )
+        obj = ColonoscopyReport.objects.prefetch_related(
+            "patient", "photoprotocolimage_set"
+        ).get(pk=pk)
     except ColonoscopyReport.DoesNotExist:
         raise Http404("Colonoscopy report not found")
-    
+
     context = {
         "app": "colonoscopy",
         "obj": obj,
         "buttons": {
             "back": "colonoscopy:colonoscopy-list",
             "edit": "colonoscopy:colonoscopy-update",
-        }
+        },
     }
-    
+
     return render(request, "colonoscopy/colonoscopy_detail.html", context)
+
 
 class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
     form_list = [
@@ -76,11 +86,13 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         "recommendations": "colonoscopy/colonoscopy_wizard_recommendations_form.html",
     }
 
-    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, "colonoscopy_photoprotocol", "0"))
+    file_storage = FileSystemStorage(
+        location=os.path.join(settings.MEDIA_ROOT, "colonoscopy_photoprotocol", "0")
+    )
 
     def get_template_names(self):
         return [ColonoscopyWizardView.templates[self.steps.current]]
-    
+
     def dispatch(self, request, *args, **kwargs):
         # Get the Lab instance.
         pk = self.kwargs.get("pk")
@@ -90,10 +102,10 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
             self.colonoscopy = None
 
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get_form_instance(self, step):
         return self.colonoscopy
-    
+
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
 
@@ -102,7 +114,7 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         context["url_detail"] = "colonoscopy:colonoscopy-detail"
 
         return context
-    
+
     def done(self, form_list, form_dict, **kwargs):
         # Save the colonoscopy report
         form = form_dict.get("passport")
@@ -131,15 +143,17 @@ class ColonoscopyWizardView(LoginRequiredMixin, SessionWizardView):
         form = form_dict.get("recommendations")
         for field, value in form.cleaned_data.items():
             setattr(colonoscopy, field, value)
-        
+
         colonoscopy.save()
-        
+
         # Save the photo protocol images
         formset = form_dict.get("photoprotocol")
         formset.instance = colonoscopy
         formset.save()
-        
-        return redirect(reverse("colonoscopy:colonoscopy-detail", kwargs = {"pk": colonoscopy.pk}))
+
+        return redirect(
+            reverse("colonoscopy:colonoscopy-detail", kwargs={"pk": colonoscopy.pk})
+        )
 
 
 def image_append(request):

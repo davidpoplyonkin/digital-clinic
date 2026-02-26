@@ -4,6 +4,7 @@ from ..patients.models import Patient
 from .models import MCReport
 from ..core.forms.fields import AutocompleteField
 
+
 class MCReportForm(forms.ModelForm):
     patient = AutocompleteField(Patient, "full_name", "patient")
 
@@ -11,5 +12,5 @@ class MCReportForm(forms.ModelForm):
         model = MCReport
         fields = "__all__"
         widgets = {
-            "date": forms.DateInput(attrs = {"type": "date"}),
+            "date": forms.DateInput(attrs={"type": "date"}),
         }

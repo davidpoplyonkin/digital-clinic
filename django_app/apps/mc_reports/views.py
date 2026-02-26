@@ -12,6 +12,7 @@ try:
 except ModuleNotFoundError:
     from ..core.utils.example_pdf_generator import generate_pdf
 
+
 @login_required
 def mcr_list_view(request):
     context = {
@@ -28,10 +29,11 @@ def mcr_list_view(request):
 
     return render(request, "digital_clinic/list_view.html", context)
 
+
 @login_required
 def mcr_detail_view(request, pk):
-    mcr = get_object_or_404(MCReport, pk = pk)
-    
+    mcr = get_object_or_404(MCReport, pk=pk)
+
     context = {
         "app": "mc_reports",
         "obj": mcr,
@@ -41,20 +43,22 @@ def mcr_detail_view(request, pk):
             "cp": "mc_reports:mcr-copy",
             "print": "mc_reports:mcr-print",
             "delete": "mc_reports:mcr-delete",
-        }
+        },
     }
-    
+
     return render(request, "mc_reports/mcr_detail.html", context)
+
 
 class MCReportCreateView(LoginRequiredMixin, CreateView):
     model = MCReport
     form_class = MCReportForm
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["app"] = "mc_reports"
 
         return context
+
 
 class MCReportUpdateView(LoginRequiredMixin, UpdateView):
     model = MCReport
@@ -66,6 +70,7 @@ class MCReportUpdateView(LoginRequiredMixin, UpdateView):
 
         return context
 
+
 @login_required
 def mcr_delete_view(request, pk):
 
@@ -74,7 +79,7 @@ def mcr_delete_view(request, pk):
     if request.method == "POST":
         obj.delete()
         return redirect("mc_reports:mcr-list")
-    
+
     context = {
         "app": "mc_reports",
         "title": "MC Report",
@@ -84,14 +89,11 @@ def mcr_delete_view(request, pk):
 
     return render(request, "digital_clinic/delete_view.html", context)
 
+
 @login_required
 def mcr_print(request, pk):
     try:
-        obj = (
-            MCReport.objects
-            .prefetch_related("patient")
-            .get(pk=pk)
-        )
+        obj = MCReport.objects.prefetch_related("patient").get(pk=pk)
     except MCReport.DoesNotExist:
         raise Http404("MC Report object not found")
 
@@ -99,6 +101,7 @@ def mcr_print(request, pk):
     response["Content-Disposition"] = "attachment; filename=mcr.pdf"
 
     return response
+
 
 @login_required
 def mcr_copy(request, pk):
@@ -112,11 +115,6 @@ def mcr_copy(request, pk):
 
     form = MCReportForm(fields)
 
-    context = {
-        "app": "mc_reports",
-        "form": form
-    }
+    context = {"app": "mc_reports", "form": form}
 
     return render(request, "mc_reports/mcreport_form.html", context)
-
-
