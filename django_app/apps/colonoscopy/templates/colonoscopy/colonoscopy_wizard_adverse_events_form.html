@@ -1,0 +1,9 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Adverse Events</h1>
+
+    {{ form.adverse_events|as_crispy_field }}
+
+{% endblock %}

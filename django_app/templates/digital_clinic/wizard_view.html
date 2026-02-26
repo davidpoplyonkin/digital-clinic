@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="content-section">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
             {{ wizard.management_form }}
@@ -12,7 +12,7 @@
 
             <div class="form-actions d-flex justify-content-end mt-3">
                     <a
-                        href="{% if form.instance.pk %} {% url 'lab:lab-detail' form.instance.pk %} {% else %} {% url 'lab:lab-list' %} {% endif %}"
+                        href="{% if form.instance.pk %} {% url url_detail form.instance.pk %} {% else %} {% url url_list %} {% endif %}"
                         class="btn btn-outline-secondary me-2"
                     >
                         <i class="bi bi-x-lg"></i> Cancel

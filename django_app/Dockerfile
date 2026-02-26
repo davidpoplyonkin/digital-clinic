@@ -32,9 +32,6 @@ WORKDIR /usr/src/app
 # for psycopg
 RUN apt-get update && apt-get install -y libpq-dev
 
-# for formtools
-RUN pip install --no-cache-dir --upgrade setuptools
-
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 

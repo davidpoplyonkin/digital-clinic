@@ -1,0 +1,23 @@
+{% extends "digital_clinic/wizard_view.html" %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+    <h1>Colonoscopy | Photo Protocol</h1>
+    {{ form.management_form }}
+    <div id="images">
+        {% for f in form %}
+            {% include "colonoscopy/partials/image_form.html" with form_id=forloop.counter0 form=f formset=form %}
+        {% endfor %}
+    </div>
+    <div class="d-grid ps-2 pe-2">
+        <button
+            id="add-image-btn"
+            class="btn btn-outline-secondary"
+            hx-post="{% url 'colonoscopy:image-append' %}"
+            hx-target="#images"
+            hx-swap="beforeend"
+        >
+            <i class="bi bi-plus-lg"></i> Add Image
+        </button>
+    </div>
+{% endblock %}
