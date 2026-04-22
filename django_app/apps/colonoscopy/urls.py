@@ -14,6 +14,7 @@ urlpatterns = [
         name="colonoscopy-update",
     ),
     path("<int:pk>/copy/", views.ColonoscopyWizardView.as_view(copy=True), name="colonoscopy-copy"),
+    path("<int:pk>/print/", views.colonoscopy_print, name="colonoscopy-print"),
     path("<int:pk>/delete/", views.colonoscopy_delete_view, name="colonoscopy-delete"),
     # HTMX
     path("htmx/image/new/", views.image_append, name="image-append"),

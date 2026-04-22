@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from formtools.wizard.views import SessionWizardView
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
@@ -19,6 +19,10 @@ from .forms import (
     ConclusionForm,
     RecommendationsForm,
 )
+try:
+    from .utils.colonoscopy_pdf_generator import generate_pdf
+except ModuleNotFoundError:
+    from ..core.utils.example_pdf_generator import generate_pdf
 
 
 @login_required
@@ -58,6 +62,7 @@ def colonoscopy_detail_view(request, pk):
             "back": "colonoscopy:colonoscopy-list",
             "edit": "colonoscopy:colonoscopy-update",
             "cp": "colonoscopy:colonoscopy-copy",
+            "print": "colonoscopy:colonoscopy-print",
             "delete": "colonoscopy:colonoscopy-delete",
         },
     }
@@ -233,3 +238,15 @@ def image_append(request):
         return render(request, "colonoscopy/partials/image_append.html", context)
     else:
         raise Http404("Invalid request")
+    
+@login_required
+def colonoscopy_print(request, pk):
+    try:
+        obj = ColonoscopyReport.objects.prefetch_related("patient", "photoprotocolimage_set").get(pk=pk)
+    except ColonoscopyReport.DoesNotExist:
+        raise Http404("Colonoscopy Report object not found")
+
+    response = HttpResponse(generate_pdf(obj), content_type="application/pdf")
+    response["Content-Disposition"] = "attachment; filename=colonoscopy.pdf"
+
+    return response
