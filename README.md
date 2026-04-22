@@ -62,30 +62,14 @@ to the destination:
 django_app/apps/lab/utils/lab_pdf_generator.py
 ```
 
-### SSL Certificate
-
-The website is accessed directly via the VPS IP address by design. First, search engine discoverability is unnecessary, as new users are onboarded manually by an administrator. Second, given the small user base, notifying users of an IP change (e.g., during server migration) is straightforward. This approach avoids the overhead of domain management while maintaining operational simplicity.
-
-Regarding SSL, the primary functions of a certificate are to verify website authenticity and to encrypt traffic. While a certificate issued by a Certificate Authority (CA) does both, a self-signed certificate provides only encryption. Because the website is accessed via a known IP provided directly by an administrator, the third-party authenticity check is redundant. Therefore, a self-signed certificate is used as a practical solution for securing data in transit.
-
-On MacOS, a self-signed certificate is created as follows (the VPS IP should be used as the common name):
-```
-$ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -nodes
-```
-
-The resulting two files should be moved to the `certs` folder at the same level as `docker-compose.yml`.
-
-Upon first visit, the browser will likely display a warning because the certificate is self-signed. This is expected behavior given the architecture; users should select "Advanced" and proceed to the site.
-
 ### Nginx Configuration Files
 
-The application will be deployed using `docker --context`, which builds containers directly on the remote server while the source code files remain on the local machine. However, in order for the Nginx container to be built, the configuration files (and the ssl certificate), must be preliminarily uploaded to the server:
+The application will be deployed using `docker --context`, which builds containers directly on the remote server while the source code files remain on the local machine. However, in order for the Nginx container to be built, the configuration files must be preliminarily uploaded to the server:
 ```
 $ scp -r nginx <user>@<vps_ip>:<absolute_path>/digital-clinic 
-$ scp -r certs <user>@<vps_ip>:<absolute_path>/digital-clinic/certs
 ```
 
-The specified paths must match those under the `nginx volumes` section in `docker-compose.yml`
+The specified path must match the one under the `nginx volumes` section in `docker-compose.yml`
 
 ### Deployment
 
