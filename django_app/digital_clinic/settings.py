@@ -168,3 +168,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # The URL that handles the media served from MEDIA_ROOT.
 MEDIA_URL = "/media/"
+
+# So that the user could upload multiple images at once
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20 MB
