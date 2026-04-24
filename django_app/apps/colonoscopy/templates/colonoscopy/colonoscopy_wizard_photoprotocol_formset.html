@@ -4,6 +4,7 @@
 {% block form %}
     <h1>Colonoscopy | Photo Protocol</h1>
     {{ form.management_form }}
+    <p>*Aspect Ratio: 1.3W to 1H</p>
     <div id="images">
         {% for f in form %}
             {% include "colonoscopy/partials/image_form.html" with form_id=forloop.counter0 form=f formset=form %}
