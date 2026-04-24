@@ -75,7 +75,7 @@ class ColonoscopyReport(models.Model):
             ("a", "Anastomosis"),
         ]
     )
-    biopsy_referral = models.PositiveSmallIntegerField()
+    biopsy_referral = models.PositiveIntegerField()
     withdrawal_time = models.PositiveSmallIntegerField(blank=True, null=True)
 
     finger_examination = models.TextField()
