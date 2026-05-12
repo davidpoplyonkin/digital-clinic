@@ -28,7 +28,7 @@ class Lab(models.Model):
 class TestResult(models.Model):
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    value = models.DecimalField(max_digits=6, decimal_places=3)
+    value = models.DecimalField(max_digits=8, decimal_places=3)
     order = models.PositiveSmallIntegerField()
     cs = models.BooleanField()  # clinically significant or not
 
